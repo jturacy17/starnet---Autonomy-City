@@ -55,6 +55,7 @@ test/child-env.test.js
 test/domain-store.test.js
 test/enterprise-model.test.js
 test/enterprise-state.test.js
+test/enterprise-operations.test.js
 test/provider-runtime.test.js
 test/run-execution-state.test.js
 test/tool-progress-guard.test.js
