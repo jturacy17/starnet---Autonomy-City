@@ -63,6 +63,7 @@ test/enterprise-manager-board-loop.test.js
 test/enterprise-command-summary.test.js
 test/autonomy-city-surface.test.js
 test/enterprise-routes.test.js
+test/enterprise-index-wiring.test.js
 test/provider-runtime.test.js
 test/run-execution-state.test.js
 test/tool-progress-guard.test.js
