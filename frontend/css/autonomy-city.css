@@ -110,3 +110,17 @@
 .ac-finance .ac-building:before,.ac-commerce .ac-building:before,.ac-agency .ac-building:before{content:"";position:absolute;inset:8px -8px 2px;border:1px dashed #c8b77d99;background:repeating-linear-gradient(90deg,transparent 0 20px,#c8b77d33 20px 22px);z-index:5;transform:translateZ(18px)}
 .ac-finance .ac-building:after,.ac-commerce .ac-building:after,.ac-agency .ac-building:after{box-shadow:0 0 0 1px #c8b77d44,0 8px 18px #0008}
 .ac-campus .ac-state{position:relative}.ac-campus .ac-state:before{content:"";display:inline-block;width:6px;height:6px;margin-right:5px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor;vertical-align:1px}
+
+
+/* Phase 2B live city cues — driven only by proven enterprise state. */
+.ac-campus.is-selected{z-index:8;filter:drop-shadow(0 24px 20px #000b) drop-shadow(0 0 18px #d3bd7a55)}
+.ac-campus.is-selected .ac-building{filter:brightness(1.08)}
+.ac-campus.is-selected:after{content:"";position:absolute;left:50%;top:42%;width:170px;height:90px;transform:translate(-50%,-50%) rotateZ(-6deg) translateZ(-12px);border:2px solid #d8c27a88;border-radius:50%;box-shadow:0 0 24px #d8c27a33,inset 0 0 18px #d8c27a22;pointer-events:none}
+.ac-hq.is-selected:after{width:230px;height:120px}
+.ac-campus.has-live .ac-state:after{content:"";position:absolute;right:-9px;top:50%;width:5px;height:5px;margin-top:-2px;border-radius:50%;background:#93d6a2;box-shadow:0 0 9px #93d6a2;animation:ac-live-pulse 1.8s ease-in-out infinite}
+.ac-hq.attention-watch .ac-state{color:#e0cc78}.ac-hq.attention-watch .ac-state:after{background:#e0cc78;box-shadow:0 0 10px #e0cc78}
+.ac-hq.attention-decide .ac-state{color:#e4ab69}.ac-hq.attention-decide .ac-state:after{background:#e4ab69;box-shadow:0 0 12px #e4ab69}
+.ac-hq.attention-decide .ac-building-hq{filter:drop-shadow(0 0 12px #e4ab6944)}
+.ac-media.has-live .ac-building{filter:drop-shadow(0 0 9px #d9be7940)}
+@keyframes ac-live-pulse{0%,100%{opacity:.45;transform:scale(.8)}50%{opacity:1;transform:scale(1.35)}}
+@media(prefers-reduced-motion:reduce){.ac-campus.has-live .ac-state:after{animation:none}.ac-campus,.ac-campus:hover,#ac-campus-layer{transition:none!important}}
