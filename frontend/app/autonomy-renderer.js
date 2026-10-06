@@ -46,6 +46,12 @@ const AutonomyRenderer=(()=>{
     const depth=document.createElement('div');depth.className='ac-city-depth';depth.setAttribute('aria-hidden','true');
     depth.innerHTML='<i></i><i></i><i></i><i></i><i></i><i></i>';
     world.appendChild(depth);
+    const traffic=document.createElement('div');traffic.className='ac-service-traffic';traffic.setAttribute('aria-hidden','true');
+    traffic.innerHTML='<i class="v1"></i><i class="v2"></i><i class="v3"></i>';
+    world.appendChild(traffic);
+    const civic=document.createElement('div');civic.className='ac-civic-grounds';civic.setAttribute('aria-hidden','true');
+    civic.innerHTML='<span class="ac-fountain"></span><span class="ac-walkway w1"></span><span class="ac-walkway w2"></span><span class="ac-lamp l1"></span><span class="ac-lamp l2"></span><span class="ac-lamp l3"></span><span class="ac-lamp l4"></span>';
+    world.appendChild(civic);
   }
   function decorateBuildings(root){
     root.querySelectorAll('.ac-campus').forEach(c=>{
