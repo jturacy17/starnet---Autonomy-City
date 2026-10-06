@@ -11,7 +11,7 @@ const AutonomyRenderer=(()=>{
     layer.style.setProperty('--ac-pan-x',panX+'px');
     layer.style.setProperty('--ac-pan-y',panY+'px');
   }
-  function clearFocus(){focused='';if(world)world.classList.remove('has-focus');if(rootEl){rootEl.querySelectorAll('.ac-campus.is-selected').forEach(n=>n.classList.remove('is-selected'));}}
+  function clearFocus(){focused='';if(world){world.classList.remove('has-focus');world.removeAttribute('data-focus');const s=world.querySelector('.ac-district-stage');if(s)s.classList.remove('show');}if(rootEl){rootEl.querySelectorAll('.ac-campus.is-selected').forEach(n=>n.classList.remove('is-selected'));}}
   function reset(){clearFocus();zoom=1;panX=0;panY=0;apply();}
   function wheel(e){
     if(!world||!world.contains(e.target))return;
@@ -52,6 +52,9 @@ const AutonomyRenderer=(()=>{
     const civic=document.createElement('div');civic.className='ac-civic-grounds';civic.setAttribute('aria-hidden','true');
     civic.innerHTML='<span class="ac-fountain"></span><span class="ac-walkway w1"></span><span class="ac-walkway w2"></span><span class="ac-lamp l1"></span><span class="ac-lamp l2"></span><span class="ac-lamp l3"></span><span class="ac-lamp l4"></span>';
     world.appendChild(civic);
+    const stage=document.createElement('div');stage.className='ac-district-stage';stage.setAttribute('aria-hidden','true');
+    stage.innerHTML='<small>ENTERING DISTRICT</small><b></b><span></span>';
+    world.appendChild(stage);
   }
   function decorateBuildings(root){
     root.querySelectorAll('.ac-campus').forEach(c=>{
@@ -64,7 +67,7 @@ const AutonomyRenderer=(()=>{
     if(!rootEl||!layer)return;
     const presets={hq:[1.16,0,42],media:[1.18,120,44],rnd:[1.16,-118,42],commerce:[1.05,115,-58],agency:[1.05,-115,-58],finance:[1.08,-58,82]};
     const p=presets[id]||[1,0,0];
-    clearFocus();focused=id;if(world)world.classList.add('has-focus');zoom=p[0];panX=p[1];panY=p[2];
+    clearFocus();focused=id;if(world){world.classList.add('has-focus');world.dataset.focus=id;const stage=world.querySelector('.ac-district-stage');if(stage){const names={hq:['COMMAND DISTRICT','CEO · BOARD · STRATEGY'],media:['MEDIA CAMPUS','SPORTS CLIPPING PILOT'],rnd:['R&D / INNOVATION','SYSTEM LABS'],commerce:['COMMERCE','FUTURE OPERATIONS'],agency:['AGENCY','FUTURE OPERATIONS'],finance:['FINANCE','FUTURE OPERATIONS']};const n=names[id]||['AUTONOMY CITY',''];stage.querySelector('b').textContent=n[0];stage.querySelector('span').textContent=n[1];stage.classList.add('show');setTimeout(()=>stage.classList.remove('show'),1200);}}zoom=p[0];panX=p[1];panY=p[2];
     const node=rootEl.querySelector('[data-campus="'+id+'"]');if(node)node.classList.add('is-selected');
     apply();
   }
