@@ -30,6 +30,9 @@ A.ok(css.includes('.ac-camera-controls'),'isometric camera controls are styled')
 A.ok(css.includes('.ac-campus.is-selected'),'selected campus has a focused visual state');
 A.ok(css.includes('.ac-campus.has-live'),'activity lighting requires a live state class');
 A.ok(css.includes('@keyframes ac-water-drift'),'ambient environment motion is present');
+A.ok(css.includes('.media-flow-live'),'HQ to Media flow only animates from a live-state class');
+A.ok(css.includes('.ac-enterprise-flow'),'district connection layer is rendered');
+A.ok(css.includes('.ac-rendered-iso.has-focus'),'selected district visually separates from the wider city');
 A.ok(css.includes('.ac-water'),'campus layout reserves landscaped/water breathing room');
 A.ok(css.includes('.ac-hq-metrics'),'Command HQ includes an executive metric strip');
 A.ok(js.includes('ENTER MEDIA CAMPUS'),'Command HQ can drill into Media');
