@@ -2,7 +2,7 @@
    Presentation-only: camera transforms and depth effects never alter enterprise truth/state. */
 'use strict';
 const AutonomyRenderer=(()=>{
-  let world=null, layer=null, zoom=1, panX=0, panY=0, dragging=false, sx=0, sy=0, px=0, py=0;
+  let rootEl=null, world=null, layer=null, zoom=1, panX=0, panY=0, dragging=false, sx=0, sy=0, px=0, py=0, focused='';
   const MIN=.78, MAX=1.35;
   function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
   function apply(){
@@ -11,7 +11,8 @@ const AutonomyRenderer=(()=>{
     layer.style.setProperty('--ac-pan-x',panX+'px');
     layer.style.setProperty('--ac-pan-y',panY+'px');
   }
-  function reset(){zoom=1;panX=0;panY=0;apply();}
+  function clearFocus(){focused='';if(rootEl){rootEl.querySelectorAll('.ac-campus.is-selected').forEach(n=>n.classList.remove('is-selected'));}}
+  function reset(){clearFocus();zoom=1;panX=0;panY=0;apply();}
   function wheel(e){
     if(!world||!world.contains(e.target))return;
     if(e.target.closest('.ac-panel'))return;
@@ -44,8 +45,24 @@ const AutonomyRenderer=(()=>{
       const b=c.querySelector('.ac-building');if(b)b.classList.add('ac-isometric-building');
     });
   }
+  function focus(id){
+    if(!rootEl||!layer)return;
+    const presets={hq:[1.16,0,42],media:[1.18,120,44],rnd:[1.16,-118,42],commerce:[1.05,115,-58],agency:[1.05,-115,-58],finance:[1.08,-58,82]};
+    const p=presets[id]||[1,0,0];
+    clearFocus();focused=id;zoom=p[0];panX=p[1];panY=p[2];
+    const node=rootEl.querySelector('[data-campus="'+id+'"]');if(node)node.classList.add('is-selected');
+    apply();
+  }
+  function sync(data){
+    if(!rootEl)return;
+    const hq=rootEl.querySelector('[data-campus="hq"]'),media=rootEl.querySelector('[data-campus="media"]');
+    if(hq){hq.classList.remove('has-live','attention-watch','attention-decide');if(data&&data.attention){hq.classList.add('has-live');if(data.attention==='WATCH')hq.classList.add('attention-watch');if(data.attention==='DECIDE')hq.classList.add('attention-decide');}}
+    const opp=data&&data.portfolio&&data.portfolio.opportunities;const exp=data&&data.portfolio&&data.portfolio.experiments;
+    const mediaLive=Number(opp&&opp.total||0)>0||Number(exp&&exp.total||0)>0;
+    if(media)media.classList.toggle('has-live',mediaLive);
+  }
   function mount(root){
-    world=root&&root.querySelector('.ac-world');
+    rootEl=root;world=root&&root.querySelector('.ac-world');
     layer=root&&root.querySelector('#ac-campus-layer');
     if(!world||!layer)return;
     world.classList.add('ac-rendered-iso');
@@ -55,7 +72,7 @@ const AutonomyRenderer=(()=>{
     window.addEventListener('mousemove',move);
     window.addEventListener('mouseup',up);
   }
-  return {mount,reset};
+  return {mount,reset,focus,sync,clearFocus};
 })();
 if(typeof window!=='undefined')window.AutonomyRenderer=AutonomyRenderer;
 if(typeof module!=='undefined'&&module.exports)module.exports={AutonomyRenderer};
