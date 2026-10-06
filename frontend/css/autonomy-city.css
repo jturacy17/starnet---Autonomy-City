@@ -171,3 +171,7 @@
 .ac-city-depth i:nth-child(6){left:88%;top:34%;transform:scale(.95)}
 .ac-campus.is-selected~*{}
 @media(prefers-reduced-motion:reduce){.media-flow-live .ac-flow-pulse{animation:none;opacity:.8}}
+
+.ac-rendered-iso.has-focus .ac-campus:not(.is-selected){opacity:.58;filter:saturate(.72) brightness(.78)}
+.ac-rendered-iso.has-focus .ac-campus.is-selected{opacity:1}
+.ac-rendered-iso.has-focus .ac-road,.ac-rendered-iso.has-focus .ac-green,.ac-rendered-iso.has-focus .ac-water{filter:brightness(.82) saturate(.82)}
