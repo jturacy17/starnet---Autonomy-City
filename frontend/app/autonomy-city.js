@@ -25,7 +25,7 @@ const AutonomyCity = (() => {
       +'<div class="ac-world"><div class="ac-skyline" aria-hidden="true"></div><div class="ac-green g1"></div><div class="ac-green g2"></div><div class="ac-water" aria-hidden="true"></div>'
       +'<div class="ac-road r1"></div><div class="ac-road r2"></div><div class="ac-road r3"></div><div class="ac-road r4"></div><div class="ac-road r5"></div>'
       +'<div class="ac-plaza"><span>CEO COMMAND DISTRICT</span></div><div class="ac-mall" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div id="ac-campus-layer"></div>'
-      +'<div class="ac-legend"><b>FIRST PASS</b><span>Campus layout + executive surface</span><span>Live activity appears only when proven by enterprise state.</span></div></div>'
+      +'<div class="ac-legend"><b>ISOMETRIC CITY RENDERER</b><span>Interactive enterprise campus</span><span>Live activity appears only when proven by enterprise state.</span></div></div>'
       +'<aside id="ac-panel" class="ac-panel"><button id="ac-panel-close" type="button" aria-label="Close detail">×</button><div id="ac-panel-body"></div></aside>';
     document.body.appendChild(root);
     panel=root.querySelector('#ac-panel');status=root.querySelector('#ac-link-status');
@@ -118,7 +118,7 @@ const AutonomyCity = (() => {
   }
   function open(){buildShell();root.classList.remove('hidden');requestAnimationFrame(()=>root.classList.add('shown'));connectData();}
   function close(){if(!root)return;if(window.AutonomyRenderer&&AutonomyRenderer.reset)AutonomyRenderer.reset();root.classList.remove('shown');setTimeout(()=>root.classList.add('hidden'),180);if(unsub){unsub();unsub=null;}}
-  function installLauncher(){if(document.getElementById('autonomy-city-launch'))return;const btn=el('button','ac-launch','AUTONOMY CITY');btn.id='autonomy-city-launch';btn.type='button';btn.title='Open the Phase 1 Autonomy City view';btn.onclick=open;document.body.appendChild(btn);}
+  function installLauncher(){if(document.getElementById('autonomy-city-launch'))return;const btn=el('button','ac-launch','AUTONOMY CITY');btn.id='autonomy-city-launch';btn.type='button';btn.title='Open Autonomy City';btn.onclick=open;document.body.appendChild(btn);}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installLauncher);else installLauncher();
   return {open,close};
 })();
