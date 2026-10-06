@@ -39,8 +39,11 @@ A.ok(css.includes('.ac-rendered-iso.has-focus'),'selected district visually sepa
 A.ok(renderer.includes('ac-district-stage'),'renderer creates district entry staging');
 A.ok(renderer.includes('ac-arrival-zones'),'renderer creates district arrival zones');
 A.ok(renderer.includes('ac-grand-boulevard'),'renderer creates Command approach boulevard');
+A.ok(renderer.includes('ac-campus-gates'),'renderer creates labeled campus gateways');
+A.ok(renderer.includes('ac-parallax'),'renderer creates foreground/background parallax scenery');
 A.ok(html.includes('css/autonomy-city-motion.css'),'ambient motion stylesheet is loaded');
 A.ok(css.includes('.ac-water'),'campus layout reserves landscaped/water breathing room');
+A.ok(css.includes('.ac-road:after'),'roads include hierarchy markings');
 A.ok(css.includes('.ac-hq-metrics'),'Command HQ includes an executive metric strip');
 A.ok(js.includes('ENTER MEDIA CAMPUS'),'Command HQ can drill into Media');
 A.ok(mediaSports.includes('Sports Operations'),'Media campus exposes operating areas');
