@@ -53,6 +53,7 @@ test/durable-write.mode.test.js
 test/secret-file-modes.test.js
 test/child-env.test.js
 test/domain-store.test.js
+test/enterprise-model.test.js
 test/provider-runtime.test.js
 test/run-execution-state.test.js
 test/tool-progress-guard.test.js
