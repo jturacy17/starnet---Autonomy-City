@@ -55,6 +55,12 @@ const AutonomyRenderer=(()=>{
     const stage=document.createElement('div');stage.className='ac-district-stage';stage.setAttribute('aria-hidden','true');
     stage.innerHTML='<small>ENTERING DISTRICT</small><b></b><span></span>';
     world.appendChild(stage);
+    const arrivals=document.createElement('div');arrivals.className='ac-arrival-zones';arrivals.setAttribute('aria-hidden','true');
+    arrivals.innerHTML='<span class="az hq"></span><span class="az media"></span><span class="az rnd"></span><span class="az commerce"></span><span class="az agency"></span><span class="az finance"></span>';
+    world.appendChild(arrivals);
+    const boulevard=document.createElement('div');boulevard.className='ac-grand-boulevard';boulevard.setAttribute('aria-hidden','true');
+    boulevard.innerHTML='<span></span><i></i><i></i><i></i><i></i>';
+    world.appendChild(boulevard);
   }
   function decorateBuildings(root){
     root.querySelectorAll('.ac-campus').forEach(c=>{
