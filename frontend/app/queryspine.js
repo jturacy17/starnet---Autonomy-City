@@ -206,6 +206,13 @@ const QuerySpine = (() => {
     validate: data => !!(data && data.surface === 'command_hq' && data.attention)
   });
 
+  define('media-campus', {
+    path: '/api/enterprise/media',
+    ttlMs: 5000,
+    pollMs: 5000,
+    validate: data => !!(data && data.surface === 'media_campus' && data.sports)
+  });
+
   // Durable Commander Journey truth. Polling is shared and subscriber-owned; failed reads keep
   // last-good data with explicit stale/error metadata rather than manufacturing current proof.
   define('journey', {
