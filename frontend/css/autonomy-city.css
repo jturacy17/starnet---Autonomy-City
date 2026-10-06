@@ -142,3 +142,32 @@
 @keyframes ac-ambient-breathe{0%,100%{opacity:.45;transform:scale(.98)}50%{opacity:.8;transform:scale(1.02)}}
 @keyframes ac-construction-scan{0%,100%{opacity:.55}50%{opacity:.9}}
 @media(prefers-reduced-motion:reduce){.ac-water:before,.ac-water:after,.ac-rendered-iso .ac-skyline:after,.ac-commerce .ac-building:before,.ac-agency .ac-building:before,.ac-finance .ac-building:before{animation:none}}
+
+
+/* Phase 2C district flow — animated only when live enterprise activity is proven. */
+.ac-enterprise-flow{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.26;transition:opacity .25s ease}
+.ac-flow-line{position:absolute;left:25%;top:34%;width:29%;height:3px;background:linear-gradient(90deg,#d4bb7866,#91c5b566);transform:rotate(11deg);transform-origin:left center;box-shadow:0 0 8px #b8d7c833}
+.ac-flow-line:after{content:"";position:absolute;inset:-5px 0;border-top:1px dashed #d9ceb844;border-bottom:1px dashed #8fb5a544}
+.ac-flow-node{position:absolute;width:9px;height:9px;border-radius:50%;background:#cdb77688;box-shadow:0 0 10px #cdb77655}
+.ac-flow-node.n-media{left:24.7%;top:33.7%}.ac-flow-node.n-hq{left:52.7%;top:38.8%}
+.ac-flow-pulse{position:absolute;left:25%;top:33.7%;width:8px;height:8px;border-radius:50%;background:#a8e2c2;box-shadow:0 0 12px #a8e2c2;opacity:0}
+.media-flow-live .ac-enterprise-flow{opacity:.9}
+.media-flow-live .ac-flow-pulse{opacity:1;animation:ac-flow-travel 3.6s linear infinite}
+.media-flow-live .ac-flow-pulse.p2{animation-delay:-1.8s}
+@keyframes ac-flow-travel{
+  0%{transform:translate(0,0) scale(.7);opacity:0}
+  10%{opacity:1}
+  50%{transform:translate(210px,40px) scale(1)}
+  90%{opacity:1}
+  100%{transform:translate(420px,80px) scale(.7);opacity:0}
+}
+.ac-city-depth{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.45}
+.ac-city-depth i{position:absolute;width:16px;height:42px;background:linear-gradient(#263c2a,#17251b);border-radius:70% 70% 28% 28%;filter:drop-shadow(5px 8px 3px #0005)}
+.ac-city-depth i:nth-child(1){left:18%;top:18%;transform:scale(.9)}
+.ac-city-depth i:nth-child(2){left:31%;top:62%;transform:scale(1.1)}
+.ac-city-depth i:nth-child(3){left:68%;top:22%;transform:scale(.8)}
+.ac-city-depth i:nth-child(4){left:76%;top:57%;transform:scale(1.2)}
+.ac-city-depth i:nth-child(5){left:43%;top:75%;transform:scale(.75)}
+.ac-city-depth i:nth-child(6){left:88%;top:34%;transform:scale(.95)}
+.ac-campus.is-selected~*{}
+@media(prefers-reduced-motion:reduce){.media-flow-live .ac-flow-pulse{animation:none;opacity:.8}}
