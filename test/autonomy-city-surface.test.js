@@ -11,6 +11,8 @@ A.ok(html.includes('css/autonomy-city.css'),'Autonomy City stylesheet is loaded'
 A.ok(html.includes('app/autonomy-city.js'),'Autonomy City module is loaded');
 A.ok(html.includes('app/autonomy-renderer.js'),'isometric renderer is loaded');
 A.ok(js.includes('AutonomyRenderer.mount(root)'),'city shell mounts the isometric renderer');
+A.ok(js.includes("AutonomyRenderer.focus(id)"),'campus selection moves the presentation camera');
+A.ok(js.includes('AutonomyRenderer.sync(lastCommand)'),'live enterprise state drives city activity cues');
 A.ok(query.includes("define('command-hq'"),'Command HQ has a shared QuerySpine resource');
 A.ok(query.includes("path: '/api/enterprise/command'"),'Command HQ reads from dedicated enterprise endpoint');
 A.ok(js.includes('AUTONOMY CITY'),'first-pass launcher is present');
@@ -25,6 +27,9 @@ A.ok(js.includes('ac-building-hq'),'Command HQ uses its own civic building geome
 A.ok(css.includes('.ac-building-hq .ac-dome'),'Command HQ carries a distinct capitol dome');
 A.ok(css.includes('.ac-rendered-iso'),'city has isometric render mode');
 A.ok(css.includes('.ac-camera-controls'),'isometric camera controls are styled');
+A.ok(css.includes('.ac-campus.is-selected'),'selected campus has a focused visual state');
+A.ok(css.includes('.ac-campus.has-live'),'activity lighting requires a live state class');
+A.ok(css.includes('@keyframes ac-water-drift'),'ambient environment motion is present');
 A.ok(css.includes('.ac-water'),'campus layout reserves landscaped/water breathing room');
 A.ok(css.includes('.ac-hq-metrics'),'Command HQ includes an executive metric strip');
 A.ok(js.includes('ENTER MEDIA CAMPUS'),'Command HQ can drill into Media');
