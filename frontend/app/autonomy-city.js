@@ -14,7 +14,8 @@ const AutonomyCity = (() => {
   function campusCard(id, label, sub, state) {
     const b=el('button','ac-campus ac-'+id);
     b.type='button'; b.dataset.campus=id;
-    b.innerHTML='<span class="ac-building"><i></i><i></i><i></i></span>'
+    const building=id==='hq' ? '<span class="ac-building ac-building-hq"><i class="ac-dome"></i><i class="ac-main"></i><i class="ac-wing l"></i><i class="ac-wing r"></i><i class="ac-steps"></i></span>' : '<span class="ac-building"><i></i><i></i><i></i></span>';
+    b.innerHTML=building
       +'<b>'+esc(label)+'</b><small>'+esc(sub)+'</small>'
       +'<em class="ac-state '+esc(state)+'">'+(state==='active'?'ACTIVE':state==='pilot'?'PILOT':'UNDER CONSTRUCTION')+'</em>';
     return b;
@@ -24,8 +25,8 @@ const AutonomyCity = (() => {
     root=el('section','autonomy-city hidden'); root.id='autonomy-city-root'; root.setAttribute('aria-label','Autonomy City preview');
     root.innerHTML='<header class="ac-top"><div><strong>AUTONOMY CITY</strong><span>JT\'S SERVICE & SALE · PHASE 1</span></div>'
       +'<div class="ac-top-actions"><span id="ac-link-status" class="ac-link">ENTERPRISE DATA · CONNECTING</span><button id="ac-close" type="button">RETURN TO STARNET</button></div></header>'
-      +'<div class="ac-world"><div class="ac-road r1"></div><div class="ac-road r2"></div><div class="ac-road r3"></div><div class="ac-road r4"></div>'
-      +'<div class="ac-plaza"><span>CEO COMMAND DISTRICT</span></div><div id="ac-campus-layer"></div>'
+      +'<div class="ac-world"><div class="ac-skyline" aria-hidden="true"></div><div class="ac-green g1"></div><div class="ac-green g2"></div><div class="ac-water" aria-hidden="true"></div><div class="ac-road r1"></div><div class="ac-road r2"></div><div class="ac-road r3"></div><div class="ac-road r4"></div><div class="ac-road r5"></div>'
+      +'<div class="ac-plaza"><span>CEO COMMAND DISTRICT</span></div><div class="ac-mall" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div id="ac-campus-layer"></div>'
       +'<div class="ac-legend"><b>FIRST PASS</b><span>Campus layout + executive surface</span><span>Live activity appears only when proven by enterprise state.</span></div></div>'
       +'<aside id="ac-panel" class="ac-panel"><button id="ac-panel-close" type="button" aria-label="Close detail">×</button><div id="ac-panel-body"></div></aside>';
     document.body.appendChild(root);
@@ -62,8 +63,52 @@ const AutonomyCity = (() => {
     const inform=data.inform||{count:0,items:[]};
     const cards=(items,kind)=>items.map(x=>'<article class="ac-brief-card '+kind+'"><b>'+esc(x.title||x.id)+'</b>'
       +'<span>'+esc(x.value!=null?x.value:(x.detail||x.recommendation||''))+'</span></article>').join('');
+    const fin=data.portfolio&&data.portfolio.financials?data.portfolio.financials:{};
+    const opp=data.portfolio&&data.portfolio.opportunities?data.portfolio.opportunities:{};
     panel.querySelector('#ac-panel-body').innerHTML=
       '<div class="ac-kicker">COMMAND HQ · '+esc(data.attention)+'</div><h2>'+esc(data.headline)+'</h2>'
+      +'<div class="ac-hq-metrics"><article><span>PROFIT</span><b>
+      +'<div class="ac-exec-grid"><section><h3>DECIDE <i>'+Number(decide.count||0)+'</i></h3>'
+      +cards([...(decide.decisions||[]),...(decide.recommendations||[])],'decide')+'</section>'
+      +'<section><h3>WATCH <i>'+Number(watch.count||0)+'</i></h3>'+cards(watch.items||[],'watch')+'</section>'
+      +'<section><h3>INFORM <i>'+Number(inform.count||0)+'</i></h3>'+cards(inform.items||[],'inform')+'</section></div>';
+  }
+  function openCampus(id) {
+    panel.classList.add('open');
+    if(id==='hq'){ const s=window.QuerySpine&&QuerySpine.state?QuerySpine.state('command-hq'):null; renderBrief(s&&s.hasData?s.data:null); return; }
+    const copy={
+      media:['MEDIA CAMPUS','Sports Clipping is the first operational pilot. Manager-owned delivery, rights/monetization gating, experiments, measurement and learning live here.'],
+      rnd:['R&D / INNOVATION','Enterprise architecture, workflow experiments, agent capability research and future system development.'],
+      commerce:['COMMERCE','Reserved expansion campus. No operational automation enabled in Phase 1.'],
+      agency:['AGENCY','Reserved expansion campus. No operational automation enabled in Phase 1.'],
+      finance:['FINANCE','Reserved expansion campus. Financial intelligence exists in the enterprise layer; autonomous trading is not enabled in Phase 1.']
+    }[id]||['CAMPUS',''];
+    panel.querySelector('#ac-panel-body').innerHTML='<div class="ac-kicker">'+esc(copy[0])+'</div><h2>'+esc(copy[0])+'</h2><p class="ac-campus-copy">'+esc(copy[1])+'</p><div class="ac-campus-mapline"><span>CONNECTED TO COMMAND DISTRICT</span><i></i></div>';
+  }
+  function connectData() {
+    if(!window.QuerySpine||!QuerySpine.subscribe){ if(status)status.textContent='ENTERPRISE DATA · MODULE UNAVAILABLE'; return; }
+    try {
+      unsub=QuerySpine.subscribe('command-hq', snap => {
+        if(!status)return;
+        if(snap.hasData&&!snap.error){status.textContent='ENTERPRISE DATA · LIVE';status.classList.add('live');}
+        else if(snap.error){status.textContent='ENTERPRISE DATA · NOT CONNECTED';status.classList.remove('live');}
+        else status.textContent='ENTERPRISE DATA · CONNECTING';
+        if(panel&&panel.classList.contains('open')&&panel.querySelector('.ac-kicker')&&/COMMAND HQ/.test(panel.querySelector('.ac-kicker').textContent)) renderBrief(snap.hasData?snap.data:null);
+      },{refresh:true});
+    } catch (_) { if(status)status.textContent='ENTERPRISE DATA · NOT CONNECTED'; }
+  }
+  function open() { buildShell(); root.classList.remove('hidden'); requestAnimationFrame(()=>root.classList.add('shown')); connectData(); }
+  function close() { if(!root)return;root.classList.remove('shown');setTimeout(()=>root.classList.add('hidden'),180);if(unsub){unsub();unsub=null;} }
+  function installLauncher() {
+    if(document.getElementById('autonomy-city-launch'))return;
+    const btn=el('button','ac-launch','AUTONOMY CITY');btn.id='autonomy-city-launch';btn.type='button';btn.title='Open the Phase 1 Autonomy City view';btn.onclick=open;
+    document.body.appendChild(btn);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installLauncher);else installLauncher();
+  return {open,close};
+})();
+if(typeof module!=='undefined'&&module.exports)module.exports={AutonomyCity};
++Number(fin.profitUsd||0).toFixed(2)+'</b></article><article><span>CEO TIME</span><b>'+Number(fin.humanMinutes||0)+'m</b></article><article><span>OPPORTUNITIES</span><b>'+Number(opp.total||0)+'</b></article></div>'
       +'<div class="ac-exec-grid"><section><h3>DECIDE <i>'+Number(decide.count||0)+'</i></h3>'
       +cards([...(decide.decisions||[]),...(decide.recommendations||[])],'decide')+'</section>'
       +'<section><h3>WATCH <i>'+Number(watch.count||0)+'</i></h3>'+cards(watch.items||[],'watch')+'</section>'
