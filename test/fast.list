@@ -61,6 +61,7 @@ test/enterprise-event-sink.test.js
 test/enterprise-sports-runner.test.js
 test/enterprise-manager-board-loop.test.js
 test/enterprise-command-summary.test.js
+test/autonomy-city-surface.test.js
 test/provider-runtime.test.js
 test/run-execution-state.test.js
 test/tool-progress-guard.test.js
