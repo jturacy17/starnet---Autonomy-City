@@ -3,6 +3,7 @@
 'use strict';
 
 const { makeEnterpriseStateStore } = require('./state-store.js');
+const { buildMediaPlan } = require('./media-plan.js');
 const { buildCommandSummary } = require('./command-summary.js');
 
 function makeEnterpriseRoutes(deps) {
@@ -22,7 +23,7 @@ function makeEnterpriseRoutes(deps) {
   function handleCommand(_req,res){
     const loaded=store.read();
     if(!loaded||!loaded.value) return json(res,503,{ok:false,error:'enterprise state unavailable'});
-    return json(res,200,buildCommandSummary(loaded.value,now()));
+    return json(res,200,{...buildCommandSummary(loaded.value,now()),mediaPlan:buildMediaPlan()});
   }
 
   return {

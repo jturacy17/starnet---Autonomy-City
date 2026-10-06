@@ -91,11 +91,12 @@ const AutonomyCity = (() => {
     if(typeof AutonomyRenderer!=='undefined'&&AutonomyRenderer.focus)AutonomyRenderer.focus('media');
     let html='';
     if(!id||id==='home') html=mediaDetail();
-    else if(id==='sports'&&typeof MediaSports!=='undefined') html=MediaSports.render(lastCommand);
+    else if(lastCommand&&lastCommand.mediaPlan&&lastCommand.mediaPlan.categories.some(c=>c.id===id)&&typeof MediaWorkforce!=='undefined') html=MediaWorkforce.render(lastCommand,id);
     else if(id==='management'&&typeof MediaManagement!=='undefined') html=MediaManagement.render(lastCommand);
     else if(id==='rights'&&typeof MediaRights!=='undefined') html=MediaRights.render(lastCommand);
     else if(id==='performance'&&typeof MediaPerformance!=='undefined') html=MediaPerformance.render(lastCommand);
     else if(id==='workforce'&&typeof MediaWorkforce!=='undefined') html=MediaWorkforce.render(lastCommand);
+    else if(id==='sports-pilot'&&typeof MediaSports!=='undefined') html=MediaSports.render(lastCommand);
     else if(typeof MediaFuture!=='undefined') html=MediaFuture.render(id);
     else html='<h2>Media</h2>';
     panel.querySelector('#ac-panel-body').innerHTML=html;

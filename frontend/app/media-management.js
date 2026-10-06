@@ -1,2 +1,8 @@
-'use strict';
-const MediaManagement={render:(d)=>{const b=d&&d.board?d.board:{};return '<div class="ac-breadcrumb">CITY › MEDIA › MANAGER OFFICE</div><div class="ac-kicker">ACCOUNTABLE MANAGEMENT</div><h2>Media Manager Office</h2><div class="ac-media-kpis"><article><span>MANAGER</span><b>'+String(b.managerPerformance||'—')+'</b></article><article><span>BUSINESS HEALTH</span><b>'+String(b.businessHealth||'—')+'</b></article></div><div class="ac-simple-grid"><p><b>WORK QUEUE</b><br>Prioritize assigned work.</p><p><b>QUALITY DESK</b><br>Review executor output.</p><p><b>CORRECTIVE ACTIONS</b><br>Resolve blockers before escalation.</p><p><b>ESCALATION DESK</b><br>Escalate material unresolved issues.</p></div><div class="ac-chain">AGENTS → MEDIA MANAGER → BOARD → CEO</div><div class="ac-panel-nav"><button data-media-nav="sports">BACK TO SPORTS</button><button data-media-nav="home">MEDIA CAMPUS</button></div>';}};
+ 'use strict';
+const MediaManagement={render:(d)=>{
+ const p=d&&d.mediaPlan;
+ return '<div class="ac-breadcrumb">CITY › MEDIA › MANAGER OFFICE</div><div class="ac-kicker">SHARED LEADERSHIP PLAN</div><h2>Four Media Managers</h2><p>Each manager owns a similar share of worker positions. All four oversee source eligibility, priorities, quality, publication readiness and blocked work.</p>'
+  +'<div class="ac-simple-grid">'+(p?p.managers.map(m=>'<article><b>'+m.name+'</b><p>'+m.workerIds.length+' assigned positions · Planned</p><ul>'+m.workerIds.map(id=>{const c=p.categories.find(c=>c.workers.some(w=>w.id===id));const w=c.workers.find(w=>w.id===id);return '<li>'+c.name+' — '+w.name+'</li>';}).join('')+'</ul></article>').join(''):'<p>Organization data unavailable.</p>')+'</div>'
+  +'<div class="ac-panel-nav"><button data-media-nav="workforce">VIEW ALL TEAMS</button><button data-media-nav="home">MEDIA CAMPUS</button></div>';
+}};
+if(typeof module!=='undefined'&&module.exports)module.exports={MediaManagement};
