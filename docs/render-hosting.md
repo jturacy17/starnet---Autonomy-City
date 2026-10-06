@@ -24,3 +24,12 @@ node --test test/hosted-proxy.test.js test/enterprise-*.test.js test/autonomy-ci
 ```
 
 Before deployment, the hosted entry point was started locally, unauthenticated pages returned 401, `/healthz` reported readiness, and an authenticated Chromium session exercised the live Command API, Media and Sports panels. Render-specific resource limits and actual public TLS routing still require checking deployment logs and the deployed URL.
+
+## Connect a chat provider
+
+From StarNet's Connect a brain screen, choose OpenAI. Pick one connection method:
+
+1. API key: create a project API key at https://platform.openai.com/api-keys with API billing enabled. Enter it directly into the app's API KEY field, choose an available model, and press WAKE OVERSEER. The app checks the connection before proceeding. API usage is billed separately from a ChatGPT subscription. Never paste the key into chat or a screenshot. For a key supplied through Render instead, the application reads `OPENAI_API_KEY` from its process environment; enter the secret in Render's Environment settings.
+2. ChatGPT sign-in: leave the key field empty, click SIGN IN WITH CHATGPT, and follow the app's device-code flow on the official `auth.openai.com` page. Return to the app when it reports connected, choose a listed model and press WAKE OVERSEER. This project uses the Codex device-auth integration; actual account eligibility and this hosted sign-in have not been verified. Do not assume successful provider execution until the app's connection check passes.
+
+Provider access does not import this ChatGPT conversation. Free Render storage may lose saved agent state and sign-in sessions after instance replacement. The campus map can be viewed without connecting a provider.

@@ -8,8 +8,27 @@ const AutonomyCity = (() => {
   function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
   function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!=null)n.textContent=text;return n;}
   function buildingMarkup(id){
-    if(id==='hq') return '<span class="ac-building ac-building-hq"><i class="ac-dome"></i><i class="ac-main"></i><i class="ac-wing l"></i><i class="ac-wing r"></i><i class="ac-steps"></i></span>';
-    return '<span class="ac-building"><i></i><i></i><i></i></span>';
+    const base='<rect x="18" y="15" width="184" height="108" rx="18" fill="#d2d8c6"/><path d="M28 69h164M110 22v94" stroke="#b0baaa" stroke-width="3"/>';
+    const civic='<rect x="40" y="42" width="140" height="46" rx="3" fill="#ede4ce" stroke="#8f998e" stroke-width="2"/><path d="M49 47h122M49 55h122M49 75h122M49 83h122" stroke="#c4bca5" stroke-width="2"/><rect x="84" y="25" width="52" height="80" rx="3" fill="#f7eed7" stroke="#a8a58e" stroke-width="2"/><circle class="ac-dome" cx="110" cy="64" r="24" fill="#7a9d92" stroke="#eee6cf" stroke-width="7"/><circle cx="110" cy="64" r="13" fill="#aec4ae" stroke="#5d8277" stroke-width="2"/><path d="M83 107h54m-58 5h62m-67 5h72" stroke="#a7af9e" stroke-width="3"/>';
+    const media='<rect x="40" y="31" width="83" height="68" rx="5" fill="#c79764" stroke="#8b7253" stroke-width="3"/><rect x="49" y="40" width="65" height="50" rx="2" fill="#e2c398"/><path d="M50 52h62M50 65h62M50 78h62" stroke="#bc985f" stroke-width="3"/><rect x="134" y="43" width="41" height="60" rx="3" fill="#a6b6ad" stroke="#617d75" stroke-width="3"/><circle cx="154" cy="61" r="10" fill="#d5ddd1"/><path d="m147 60 18-9" stroke="#617d75" stroke-width="3"/>';
+    const lab='<path d="M42 32h137v27H69v43H42z" fill="#6fadb5" stroke="#3f707c" stroke-width="3"/><path d="M83 73h96v30H83z" fill="#aed1ce" stroke="#638f97" stroke-width="3"/><path d="M52 36v17m16-17v17m16-17v17m16-17v17m16-17v17m16-17v17m16-17v17m16-17v17M95 78v20m17-20v20m17-20v20m17-20v20m17-20v20" stroke="#dcebe0" stroke-width="2"/><circle cx="114" cy="63" r="9" fill="#e5ddba"/>';
+    const future='<rect x="40" y="29" width="138" height="78" rx="4" fill="#c2cab9" stroke="#8c9b89" stroke-width="2" stroke-dasharray="6 5"/><path d="M59 45h99v44H59zM108 45v44M59 67h99" fill="none" stroke="#a1af9a" stroke-width="2"/><path d="M161 40v59m-14-46h27" stroke="#c1a570" stroke-width="4"/><circle cx="48" cy="99" r="4" fill="#b69260"/>';
+    return '<span class="ac-building '+(id==='hq'?'ac-building-hq':'')+'"><svg viewBox="0 0 220 140" aria-hidden="true">'+base+(id==='hq'?civic:id==='media'?media:id==='rnd'?lab:future)+'<g fill="#567c60" stroke="#88a27d" stroke-width="2"><circle cx="28" cy="29" r="9"/><circle cx="190" cy="113" r="9"/><circle cx="29" cy="109" r="7"/><circle cx="191" cy="27" r="7"/></g></svg></span>';
+  }
+  function mapLandscape(){
+    return '<svg class="ac-landscape" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">'
+      +'<defs><pattern id="ac-tree-pattern" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="15" cy="15" r="8" fill="#3b6453"/><circle cx="13" cy="12" r="4" fill="#4b7560"/></pattern></defs>'
+      +'<rect x="20" y="20" width="1160" height="660" rx="36" fill="#284a40" stroke="#5f807066"/>'
+      +'<rect x="44" y="44" width="1112" height="612" rx="26" fill="none" stroke="#637267" stroke-width="18"/>'
+      +'<path d="M53 350h1094M415 52v596M785 52v596" stroke="#182e2b" stroke-width="34" fill="none"/>'
+      +'<path d="M53 350h1094M415 52v596M785 52v596" stroke="#69776b" stroke-width="22" fill="none"/>'
+      +'<path d="M53 350h1094M415 52v596M785 52v596" stroke="#c0c2a366" stroke-dasharray="10 12" fill="none"/>'
+      +'<path d="M95 320h280M460 320h280M830 320h280M95 390h280M460 390h280M830 390h280" stroke="#b7c1a766" stroke-width="5"/>'
+      +'<rect x="83" y="68" width="290" height="48" rx="18" fill="url(#ac-tree-pattern)"/><rect x="1090" y="420" width="32" height="200" rx="14" fill="url(#ac-tree-pattern)"/>'
+      +'<ellipse cx="230" cy="300" rx="62" ry="9" fill="#477d80" stroke="#81a69a" stroke-width="3"/>'
+      +'<path d="M490 114h220M490 123h220" stroke="#8f9e8066" stroke-width="3"/>'
+      +'<circle cx="600" cy="350" r="40" fill="#b1bba1" stroke="#263c31" stroke-width="4"/><circle cx="600" cy="350" r="24" fill="#4f8c91" stroke="#d0d2b2" stroke-width="5"/><circle cx="600" cy="350" r="8" fill="#a9d3ca"/>'
+      +'<g fill="#678c6b"><circle cx="115" cy="390" r="10"/><circle cx="350" cy="309" r="10"/><circle cx="850" cy="307" r="10"/><circle cx="1090" cy="390" r="10"/></g></svg>';
   }
   function campusCard(id,label,sub,state){
     const b=el('button','ac-campus ac-'+id);b.type='button';b.dataset.campus=id;
@@ -20,12 +39,12 @@ const AutonomyCity = (() => {
   function buildShell(){
     if(document.getElementById('autonomy-city-root'))return;
     root=el('section','autonomy-city hidden');root.id='autonomy-city-root';root.setAttribute('aria-label','Autonomy City preview');
-    root.innerHTML='<header class="ac-top"><div><strong>AUTONOMY CITY</strong><span>JT\'S SERVICE & SALE · PHASE 1</span></div>'
-      +'<div class="ac-top-actions"><span id="ac-link-status" class="ac-link">ENTERPRISE DATA · CONNECTING</span><button id="ac-close" type="button">RETURN TO STARNET</button></div></header>'
-      +'<div class="ac-world"><div class="ac-skyline" aria-hidden="true"></div><div class="ac-green g1"></div><div class="ac-green g2"></div><div class="ac-water" aria-hidden="true"></div>'
-      +'<div class="ac-road r1"></div><div class="ac-road r2"></div><div class="ac-road r3"></div><div class="ac-road r4"></div><div class="ac-road r5"></div>'
-      +'<div class="ac-plaza"><span>CEO COMMAND DISTRICT</span></div><div class="ac-mall" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div id="ac-campus-layer"></div>'
-      +'<div class="ac-legend"><b>ISOMETRIC CITY RENDERER</b><span>Interactive enterprise campus</span><span>Live activity appears only when proven by enterprise state.</span></div></div>'
+    root.innerHTML='<header class="ac-top"><div class="ac-brand"><span class="ac-brand-mark" aria-hidden="true">A</span><div><strong>AUTONOMY CITY</strong><span>JT\'S SERVICE & SALE</span></div></div>'
+      +'<div class="ac-top-actions"><span id="ac-link-status" class="ac-link">ENTERPRISE DATA · CONNECTING</span><button id="ac-close" type="button">Return to StarNet</button></div></header>'
+      +'<div class="ac-intro"><div><span class="ac-eyebrow">YOUR ENTERPRISE, AT A GLANCE</span><h1>A place for every possibility.</h1><p>Explore your campuses. Open a district to see what comes next.</p></div><span class="ac-phase">PHASE 01 <i></i> FOUNDATION</span></div>'
+      +'<div class="ac-world"><div class="ac-map-caption"><span>01 / CAMPUS OVERVIEW</span><span class="ac-map-north">↑ N</span></div><div id="ac-campus-layer">'+mapLandscape()+'</div>'
+      +'<div class="ac-legend"><span><i></i> Active district</span><span><i class="pilot"></i> Pilot</span><span><i class="planned"></i> Future campus</span></div></div>'
+      +'<footer class="ac-footer"><span>OVERHEAD CAMPUS MAP <b>·</b> Select a building to explore</span><span>Business activity reflects connected enterprise data.</span></footer>'
       +'<aside id="ac-panel" class="ac-panel"><button id="ac-panel-close" type="button" aria-label="Close detail">×</button><div id="ac-panel-body"></div></aside>';
     document.body.appendChild(root);
     panel=root.querySelector('#ac-panel');status=root.querySelector('#ac-link-status');

@@ -1,52 +1,29 @@
-/* Phase 1 Autonomy City first-pass shell. Deliberately separate from the legacy station renderer. */
-.ac-launch{position:fixed;right:18px;bottom:18px;z-index:970;border:1px solid var(--ph,#ffd34a);background:#101419;color:var(--ph,#ffd34a);padding:9px 14px;font:16px/1 VT323,monospace;letter-spacing:1px;box-shadow:0 0 18px #0008;cursor:pointer}
-.autonomy-city{position:fixed;inset:0;z-index:1200;background:radial-gradient(circle at 50% 35%,#213041 0,#111820 42%,#090d12 100%);color:#eaf0f4;font-family:VT323,monospace;opacity:0;transition:opacity .18s ease;overflow:hidden}.autonomy-city.hidden{display:none}.autonomy-city.shown{opacity:1}
-.ac-top{height:72px;display:flex;justify-content:space-between;align-items:center;padding:0 28px;border-bottom:1px solid #6d7a8655;background:#0a0f15dd;backdrop-filter:blur(12px)}.ac-top strong{display:block;font-size:29px;letter-spacing:2px}.ac-top span{display:block;color:#9aa9b4;font-size:15px}.ac-top-actions{display:flex;align-items:center;gap:18px}.ac-top-actions .ac-link{font-size:14px;color:#d3a85f}.ac-top-actions .ac-link.live{color:#8fd29d}.ac-top button,.ac-panel button{border:1px solid #8293a0;background:#141c24;color:#dbe4ea;padding:7px 11px;font:15px VT323;cursor:pointer}
-.ac-world{position:absolute;inset:73px 0 0;perspective:1100px;overflow:hidden;background:linear-gradient(135deg,#17251d 0 48%,#1a2b21 48% 52%,#152219 52%)}.ac-world:before{content:"";position:absolute;inset:0;background-image:linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px);background-size:42px 42px;transform:rotateX(58deg) scale(1.45);transform-origin:center 65%;opacity:.35}
-.ac-road{position:absolute;background:#363f47;border:1px solid #59636a;box-shadow:inset 0 0 0 3px #252c32;z-index:1}.r1{width:66%;height:44px;left:17%;top:48%;transform:rotate(-7deg)}.r2{width:48px;height:72%;left:48%;top:15%;transform:rotate(9deg)}.r3{width:42%;height:34px;left:9%;top:27%;transform:rotate(17deg)}.r4{width:39%;height:34px;right:8%;top:69%;transform:rotate(-18deg)}
-.ac-plaza{position:absolute;left:50%;top:47%;width:260px;height:170px;transform:translate(-50%,-50%) rotateX(55deg) rotateZ(-4deg);background:#b8b2a466;border:2px solid #d2cab744;border-radius:50%;z-index:2}.ac-plaza span{position:absolute;left:50%;top:100%;transform:translate(-50%,20px) rotateZ(4deg);white-space:nowrap;color:#d9dedf;font-size:17px}
-#ac-campus-layer{position:absolute;inset:0;z-index:3}.ac-campus{position:absolute;width:190px;height:150px;border:0;background:transparent;color:#edf1f2;text-align:center;cursor:pointer;filter:drop-shadow(0 15px 14px #0009)}.ac-campus b{display:block;font-size:19px;letter-spacing:1px;text-shadow:0 2px 4px #000}.ac-campus small{display:block;color:#b7c2c9;font-size:13px}.ac-campus em{display:inline-block;margin-top:4px;padding:2px 6px;border:1px solid #ffffff33;font-style:normal;font-size:12px;background:#10161dcc}.ac-state.active{color:#94dda5}.ac-state.pilot{color:#e3c77f}.ac-state.construction{color:#95a0a8}
-.ac-building{display:block;position:relative;width:104px;height:72px;margin:0 auto 7px;transform:skewY(-4deg)}.ac-building i{position:absolute;display:block;background:linear-gradient(145deg,#d7d2c8,#8d9598);border:1px solid #eef3f355}.ac-building i:nth-child(1){left:17px;bottom:0;width:70px;height:58px}.ac-building i:nth-child(2){left:0;bottom:0;width:22px;height:42px}.ac-building i:nth-child(3){right:0;bottom:0;width:22px;height:42px}
-.ac-hq{left:50%;top:38%;transform:translate(-50%,-50%)}.ac-hq .ac-building{width:132px;height:88px}.ac-hq .ac-building i:nth-child(1){left:26px;width:80px;height:72px;background:linear-gradient(145deg,#ede8df,#a7a59f)}.ac-media{left:13%;top:24%}.ac-rnd{right:14%;top:20%}.ac-commerce{left:11%;bottom:12%}.ac-agency{right:12%;bottom:13%}.ac-finance{right:31%;top:18%}
-.ac-legend{position:absolute;left:24px;bottom:22px;z-index:5;width:320px;padding:12px 14px;background:#0a1016cc;border:1px solid #71808b55}.ac-legend b,.ac-legend span{display:block}.ac-legend b{font-size:18px}.ac-legend span{color:#aab6be;margin-top:3px}
-.ac-panel{position:absolute;z-index:10;right:0;top:0;bottom:0;width:min(560px,46vw);background:#0b1118f2;border-left:1px solid #70808d77;backdrop-filter:blur(16px);transform:translateX(105%);transition:transform .2s ease;padding:76px 26px 26px;overflow:auto}.ac-panel.open{transform:translateX(0)}.ac-panel>button{position:absolute;right:18px;top:18px;font-size:25px;line-height:20px}.ac-kicker{color:#92a5b2;letter-spacing:2px}.ac-panel h2{font-size:31px;margin:5px 0 18px}.ac-campus-copy{font-size:19px;line-height:1.35;color:#c7d0d5}.ac-unavailable{border:1px solid #bd915d77;background:#241d1544;padding:14px}.ac-unavailable b{color:#e0b36f}.ac-unavailable p{color:#c9c3b8;line-height:1.3}.ac-tabs{display:flex;gap:8px;margin-top:16px}.ac-tabs span{flex:1;border:1px solid #ffffff22;padding:8px;text-align:center;color:#9faeb7}
-.ac-exec-grid{display:grid;grid-template-columns:1fr;gap:14px}.ac-exec-grid section{border:1px solid #ffffff20;padding:12px;background:#11192399}.ac-exec-grid h3{margin:0 0 8px;font-size:20px}.ac-exec-grid h3 i{float:right;font-style:normal;color:#9eb0bb}.ac-brief-card{display:block;border-top:1px solid #ffffff18;padding:8px 0}.ac-brief-card b,.ac-brief-card span{display:block}.ac-brief-card span{color:#aeb9bf;margin-top:2px}.ac-brief-card.decide b{color:#e3b46e}.ac-brief-card.watch b{color:#d7cc7d}.ac-brief-card.inform b{color:#94d4a2}
-@media(max-width:800px){.ac-panel{width:100%;box-sizing:border-box}.ac-campus{transform:scale(.82)}.ac-hq{transform:translate(-50%,-50%) scale(.86)}.ac-finance{display:none}.ac-top{padding:0 12px}.ac-top strong{font-size:23px}.ac-top-actions .ac-link{display:none}}
-
-
-/* Phase 1I architectural pass — wider campus, civic HQ, landscaping and clearer hierarchy. */
-.ac-world{background:
-  radial-gradient(circle at 50% 15%,#6a83934a 0 12%,transparent 33%),
-  linear-gradient(180deg,#20313a 0 20%,#1a2d25 20% 100%)}
-.ac-skyline{position:absolute;inset:0 0 auto;height:20%;background:linear-gradient(180deg,#101820aa,transparent);opacity:.9;pointer-events:none}
-.ac-green{position:absolute;border-radius:48% 52% 54% 46%;background:radial-gradient(circle at 42% 40%,#31543b 0 36%,#203a2a 70%,#172c20 100%);box-shadow:inset 0 0 0 1px #6b917033;z-index:0}
-.ac-green.g1{width:33%;height:31%;left:4%;top:7%;transform:rotate(-7deg)}.ac-green.g2{width:29%;height:26%;right:4%;bottom:7%;transform:rotate(8deg)}
-.ac-water{position:absolute;width:26%;height:15%;right:7%;top:36%;border-radius:52% 48% 60% 40%;background:linear-gradient(145deg,#2a5361,#173a48);box-shadow:inset 0 0 0 2px #8ab1b333,0 8px 24px #0005;z-index:0}
-.r5{width:29%;height:28px;left:35%;bottom:15%;transform:rotate(2deg)}
-.ac-mall{position:absolute;left:50%;top:51%;width:420px;height:190px;transform:translate(-50%,-50%) rotate(-4deg);z-index:2;pointer-events:none}
-.ac-mall:before,.ac-mall:after{content:"";position:absolute;left:50%;transform:translateX(-50%);width:72%;height:14px;border-radius:50%;background:#a8a59a33;box-shadow:0 0 0 1px #e5dfd133}
-.ac-mall:before{top:14px}.ac-mall:after{bottom:14px}
-.ac-mall i{position:absolute;width:7px;height:28px;background:linear-gradient(#274a31,#172e20);border-radius:60% 60% 35% 35%;box-shadow:0 0 0 1px #6d906f55}
-.ac-mall i:nth-child(1){left:22%;top:45%}.ac-mall i:nth-child(2){left:35%;top:36%}.ac-mall i:nth-child(3){left:50%;top:32%}.ac-mall i:nth-child(4){right:35%;top:36%}.ac-mall i:nth-child(5){right:22%;top:45%}
-.ac-plaza{width:330px;height:210px;background:radial-gradient(circle,#bfb9aa55 0 43%,#8f897c44 44% 57%,transparent 58%),linear-gradient(145deg,#bcb6a866,#8c877c33);box-shadow:0 20px 60px #0006,inset 0 0 0 7px #d6cfbe1f}
-.ac-campus{transition:transform .16s ease,filter .16s ease}.ac-campus:hover{transform:translateY(-5px) scale(1.035);filter:drop-shadow(0 22px 18px #000b)}.ac-hq:hover{transform:translate(-50%,-50%) translateY(-5px) scale(1.035)}
-.ac-building{height:82px;width:118px}
-.ac-building:after{content:"";position:absolute;left:8%;right:8%;bottom:-8px;height:10px;background:#84918b55;border-radius:50%;filter:blur(1px)}
-.ac-building-hq{width:176px;height:112px;transform:none}
-.ac-building-hq i{position:absolute}
-.ac-building-hq .ac-main{left:48px;bottom:20px;width:80px;height:64px;background:linear-gradient(145deg,#f0ebe1,#b9b4a8);border:1px solid #fff9}
-.ac-building-hq .ac-wing{bottom:20px;width:48px;height:49px;background:linear-gradient(145deg,#ddd7ca,#9f9a90);border:1px solid #f5f0e766}.ac-building-hq .ac-wing.l{left:5px}.ac-building-hq .ac-wing.r{right:5px}
-.ac-building-hq .ac-dome{left:65px;top:0;width:46px;height:34px;border-radius:50% 50% 36% 36%;background:linear-gradient(#ece7dc,#aaa59a);border:1px solid #fff9;box-shadow:0 0 0 2px #67645d44}
-.ac-building-hq .ac-dome:after{content:"";position:absolute;left:20px;top:-15px;width:5px;height:16px;background:#d5d0c6;box-shadow:0 -4px 0 #d5d0c6}
-.ac-building-hq .ac-steps{left:32px;bottom:7px;width:112px;height:14px;background:repeating-linear-gradient(180deg,#d8d2c5 0 3px,#aba69c 3px 5px);border:1px solid #f5f0e755}
-.ac-hq{top:34%}.ac-hq b{font-size:22px}.ac-media{left:8%;top:23%}.ac-rnd{right:8%;top:19%}.ac-commerce{left:7%;bottom:9%}.ac-agency{right:7%;bottom:10%}.ac-finance{right:27%;top:14%}
-.ac-campus:before{content:"";position:absolute;left:18px;right:18px;top:17px;height:80px;border-radius:50%;background:radial-gradient(circle,#36553b55,transparent 68%);z-index:-1}
-.ac-campus.ac-hq:before{left:-14px;right:-14px;top:-8px;height:128px;background:radial-gradient(circle,#d4caa722,transparent 67%)}
-.ac-hq-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 16px}.ac-hq-metrics article{padding:10px;border:1px solid #ffffff1f;background:#111a2299}.ac-hq-metrics span{display:block;color:#8fa1ac;font-size:13px;letter-spacing:1px}.ac-hq-metrics b{display:block;font-size:22px;margin-top:2px;color:#eef2f4}
-.ac-campus-mapline{margin-top:24px;border-top:1px solid #ffffff20;padding-top:12px;color:#8fa1aa;font-size:14px;letter-spacing:1px}.ac-campus-mapline i{display:block;width:62%;height:2px;background:linear-gradient(90deg,#9db0b9aa,transparent);margin-top:8px}
-.ac-panel{width:min(620px,49vw);box-shadow:-20px 0 60px #0007}.ac-panel h2{font-size:34px}.ac-exec-grid section{border-radius:2px}.ac-brief-card{padding:10px 0}
-@media(max-width:1050px){.ac-finance{right:22%;top:11%}.ac-media{left:4%}.ac-rnd{right:4%}.ac-commerce{left:3%}.ac-agency{right:3%}}
-
+/* Autonomy City: an overhead enterprise campus. */
+.ac-launch{position:fixed;right:20px;bottom:20px;z-index:970;padding:14px 20px;border:1px solid #b8d9b4;border-radius:8px;background:#153c33;color:#edf5dc;font:600 13px system-ui,sans-serif;letter-spacing:.8px;box-shadow:0 8px 28px #0005;cursor:pointer}
+.autonomy-city{--ac-ink:#e9efe3;--ac-muted:#9bb5a8;position:fixed;inset:0;z-index:1200;display:flex;flex-direction:column;background:#0c211e;color:var(--ac-ink);font:14px/1.5 system-ui,-apple-system,'Segoe UI',sans-serif;overflow:auto;opacity:0;transition:opacity .18s ease;color-scheme:dark}
+.autonomy-city *{box-sizing:border-box}.autonomy-city.hidden{display:none}.autonomy-city.shown{opacity:1}
+.autonomy-city button{font-family:inherit;cursor:pointer}.autonomy-city button:focus-visible{outline:3px solid #d9d09a;outline-offset:5px}
+.ac-top{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 38px;border-bottom:1px solid #89b29a22;background:#0a1c19;flex-shrink:0}
+.ac-brand{display:flex;align-items:center;gap:13px}.ac-brand-mark{display:grid;place-items:center;width:38px;height:40px;border:1px solid #b9cba066;border-radius:10px;color:#d3dfb2;font:24px Georgia,serif;background:#25493b}
+.ac-brand strong{font-size:14px;letter-spacing:2px;display:block}.ac-brand div>span{display:block;color:#8da89c;font-size:10px;letter-spacing:1.8px;margin-top:3px}
+.ac-top-actions{display:flex;align-items:center;gap:22px}.ac-link{color:#d7b981;font-size:10px;letter-spacing:1px}.ac-link.live{color:#aed1a2}.ac-link.live:before{content:'';display:inline-block;width:6px;height:6px;background:#aed1a2;border-radius:50%;margin-right:8px}
+.ac-top button{padding:9px 14px;border:1px solid #78998a44;border-radius:6px;background:#16312b;color:#c4d4c9;font-size:12px}
+.ac-intro{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:25px 40px 23px;flex-shrink:0}.ac-eyebrow{color:#96b6a0;font-size:9px;font-weight:600;letter-spacing:2.1px}.ac-intro h1{margin:7px 0 5px;font:normal clamp(25px,2.5vw,38px)/1.15 Georgia,serif;letter-spacing:-.7px;color:#f3eedc}.ac-intro p{margin:0;font-size:12px;color:#9eb1a5}.ac-phase{color:#adbe9e;font-size:9px;letter-spacing:1.5px;white-space:nowrap;border:1px solid #92b09033;border-radius:24px;padding:10px 15px}.ac-phase i{display:inline-block;width:4px;height:4px;background:#b6c5a2;border-radius:50%;margin:0 8px 2px}
+.ac-world{position:relative;flex:1;min-height:460px;margin:0 24px;border:1px solid #8ea79133;border-radius:14px;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse at 50% 30%,#2e5142,#172f29);cursor:grab}
+.ac-world.is-dragging{cursor:grabbing}.ac-map-caption{position:absolute;z-index:3;left:22px;right:22px;top:16px;display:flex;justify-content:space-between;pointer-events:none;font-size:9px;color:#adc1ad;letter-spacing:1.8px}.ac-map-north{font:18px Georgia,serif}
+#ac-campus-layer{position:absolute;inset:28px 2% 38px;transform:translate(var(--ac-pan-x,0),var(--ac-pan-y,0)) scale(var(--ac-zoom,1));transform-origin:center;transition:transform .2s ease}
+.ac-landscape{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;filter:drop-shadow(0 16px 12px #07191255)}
+.ac-campus{position:absolute;width:25%;height:38%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px;border:1px solid transparent;border-radius:14px;background:transparent;color:#e9eee0;transition:background .2s,border-color .2s;filter:none;z-index:1}
+.ac-campus:hover,.ac-campus.is-selected{background:#d2e2b90d;border-color:#c5d2a65c}.ac-campus:after{content:'OPEN';font-size:8px;letter-spacing:1px;position:absolute;right:10px;top:10px;color:#bac9a2;opacity:0;transition:opacity .2s}.ac-campus:hover:after,.ac-campus.is-selected:after{opacity:1}
+.ac-campus b{font-size:clamp(11px,1vw,15px);font-weight:600;letter-spacing:1.1px;line-height:1.3}.ac-campus small{color:#abbcab;font-size:9px;letter-spacing:1px;line-height:1.4}.ac-state{display:inline-flex;align-items:center;gap:5px;font-style:normal;font-size:8px;letter-spacing:1px;line-height:1.2;padding:4px 8px;margin-top:4px;border-radius:12px;background:#102b22;color:#acd4a1;border:1px solid #94b98944}.ac-state:before{content:'';width:4px;height:4px;border-radius:50%;background:currentColor}.ac-state.pilot{color:#e2c58f;background:#393729;border-color:#d4b27244}.ac-state.construction{color:#a9b8a8;background:#263e33;border-color:#99ab9344}
+.ac-building{display:block;width:min(190px,90%);height:55%;min-height:62px;max-height:140px;flex-shrink:1;filter:drop-shadow(4px 7px 0 #122a2466);transition:filter .2s}.ac-building svg{height:100%;width:100%;overflow:visible}.ac-building-hq{width:min(210px,95%)}.ac-building-hq .ac-dome{fill:#88aaa0}
+.ac-media{left:6%;top:6%}.ac-hq{left:37.5%;top:6%}.ac-rnd{left:69%;top:6%}.ac-commerce{left:6%;top:56%}.ac-agency{left:37.5%;top:56%}.ac-finance{left:69%;top:56%}
+.ac-commerce .ac-building,.ac-agency .ac-building,.ac-finance .ac-building{opacity:.65}.ac-campus.has-live .ac-state{border-color:#b4d89099}.ac-campus.attention-decide .ac-state{color:#f2c478}.ac-campus.attention-watch .ac-state{color:#e9db99}
+.ac-world.has-focus .ac-campus:not(.is-selected){opacity:.55}.ac-legend{position:absolute;bottom:16px;left:24px;display:flex;gap:20px;z-index:3;pointer-events:none;font-size:9px;color:#b0c2ae}.ac-legend span{display:flex;align-items:center;gap:6px}.ac-legend i{width:5px;height:5px;border-radius:50%;background:#afd297}.ac-legend .pilot{background:#dab983}.ac-legend .planned{background:#899e8b}
+.ac-camera-controls{position:absolute;right:20px;bottom:12px;z-index:4;display:flex;align-items:center;background:#112b24;border:1px solid #819e7655;border-radius:8px;overflow:hidden}.ac-camera-controls button{border:0;background:transparent;color:#cfddbf;padding:7px 12px;font-size:12px}.ac-camera-controls button:hover{background:#31523e}.ac-camera-controls button[data-cam='reset']{font-size:9px;letter-spacing:1px;border-left:1px solid #738f7033;border-right:1px solid #738f7033}
+.ac-footer{display:flex;justify-content:space-between;gap:15px;padding:14px 30px;font-size:9px;color:#78968a;flex-shrink:0}.ac-footer b{padding:0 8px;color:#bdd0a4}
+.ac-panel{position:fixed;right:0;top:0;bottom:0;z-index:10;width:min(560px,48vw);padding:72px 28px 30px;background:#0e2622f7;border-left:1px solid #809c7955;box-shadow:-30px 0 80px #0006;backdrop-filter:blur(18px);transform:translateX(105%);transition:transform .2s ease;overflow:auto}.ac-panel.open{transform:translateX(0)}.ac-panel>button{position:absolute;top:20px;right:24px;font-size:25px;line-height:1;padding:5px 10px}.ac-panel button{border:1px solid #6f947466;border-radius:5px;color:#d9e5ce;background:#1b382e;padding:10px 12px;font-size:11px;line-height:1.4}.ac-panel button:hover{background:#315041}.ac-panel h2{font:normal 32px/1.2 Georgia,serif;color:#eee8d5;margin:8px 0 22px}.ac-panel h3{font-size:12px;letter-spacing:1px}.ac-kicker{font-size:10px;color:#adc6a0;letter-spacing:1.5px}.ac-campus-copy{font-size:13px;line-height:1.8;color:#a9bfb2}.ac-unavailable{border:1px solid #ad956d77;padding:15px;border-radius:8px;color:#d1c29f}.ac-tabs{display:flex;justify-content:space-around;margin-top:20px;font-size:11px;color:#9db69f}
+.ac-hq-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0}.ac-hq-metrics article{padding:12px;background:#1c382e;border:1px solid #78967433;border-radius:6px}.ac-hq-metrics span,.ac-hq-metrics b{display:block}.ac-hq-metrics span{font-size:9px;color:#9db39b}.ac-hq-metrics b{font-size:20px;margin-top:4px}.ac-exec-grid{display:grid;gap:12px}.ac-exec-grid section{padding:15px;border:1px solid #8daa8433;border-radius:8px}.ac-exec-grid h3{margin:0 0 12px}.ac-exec-grid h3 i{float:right;font-style:normal;color:#9fba92}.ac-brief-card{display:block;border-top:1px solid #96ad8a22;padding:12px 0}.ac-brief-card b,.ac-brief-card span{display:block;font-size:12px}.ac-brief-card span{color:#9eb09e;margin-top:5px}
 .ac-breadcrumb{font-size:13px;letter-spacing:1.5px;color:#7e919d;margin:0 0 14px;text-transform:uppercase}
 .ac-panel-nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid #ffffff1a}.ac-panel-nav button{flex:1;min-width:170px}
 .ac-campus-room-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.ac-campus-room-grid article{min-height:92px;padding:12px;border:1px solid #ffffff20;background:#11192399}.ac-campus-room-grid b,.ac-campus-room-grid span,.ac-campus-room-grid em{display:block}.ac-campus-room-grid b{font-size:18px}.ac-campus-room-grid span{color:#aeb8be;margin-top:5px;line-height:1.25}.ac-campus-room-grid em{margin-top:9px;font-style:normal;font-size:12px;color:#9ad0a6}
@@ -56,8 +33,8 @@
 @media(max-width:800px){.ac-campus-room-grid,.ac-campus-stats{grid-template-columns:1fr}}
 
 .ac-media-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.ac-media-kpis article,.ac-sports-strip span{padding:10px;border:1px solid #ffffff1f;background:#11192399}.ac-media-kpis span,.ac-sports-strip span{color:#91a3ad}.ac-media-kpis b,.ac-sports-strip b{display:block;color:#eef2f4;font-size:20px;margin-top:2px}
-.ac-media-command-row{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0 18px}.ac-media-command-row button{border:1px solid #7d8d98;background:#141d25;color:#e7edf0;padding:10px;font:16px VT323;cursor:pointer}
-.ac-section-title{font-size:18px;letter-spacing:1.5px;color:#9aacb6;margin:18px 0 10px}.ac-division-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.ac-division{padding:11px;text-align:left;border:1px solid #ffffff20;background:#11192399;color:#eef2f4;font:16px VT323;cursor:pointer}.ac-division b,.ac-division span,.ac-division em{display:block}.ac-division span{color:#9fadb5;margin-top:3px}.ac-division em{font-style:normal;font-size:12px;margin-top:8px;color:#9ca8af}.ac-division.live{border-color:#c4a35d88}.ac-division.live em{color:#e5c77b}.ac-division.future{opacity:.82}
+.ac-media-command-row{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0 18px}.ac-media-command-row button{border:1px solid #7d8d98;background:#141d25;color:#e7edf0;padding:10px;font:13px inherit;cursor:pointer}
+.ac-section-title{font-size:18px;letter-spacing:1.5px;color:#9aacb6;margin:18px 0 10px}.ac-division-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.ac-division{padding:11px;text-align:left;border:1px solid #ffffff20;background:#11192399;color:#eef2f4;font:13px inherit;cursor:pointer}.ac-division b,.ac-division span,.ac-division em{display:block}.ac-division span{color:#9fadb5;margin-top:3px}.ac-division em{font-style:normal;font-size:12px;margin-top:8px;color:#9ca8af}.ac-division.live{border-color:#c4a35d88}.ac-division.live em{color:#e5c77b}.ac-division.future{opacity:.82}
 .ac-workflow{display:grid;gap:7px}.ac-workflow article{display:flex;gap:10px;padding:9px;border:1px solid #ffffff18;background:#0f171f99}.ac-workflow article>i{width:26px;height:26px;border:1px solid #8798a3;display:grid;place-items:center;font-style:normal}.ac-workflow b,.ac-workflow span{display:block}.ac-workflow span{color:#a7b3ba;margin-top:2px}
 .ac-sports-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.ac-safety-banner{margin-top:14px;padding:11px;border:1px solid #b78b5970;background:#241a1244}.ac-safety-banner b,.ac-safety-banner span{display:block}.ac-safety-banner b{color:#e1b36d}.ac-safety-banner span{color:#c9bba8;margin-top:3px}
 .ac-gate-outcomes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}.ac-gate-outcomes span{padding:12px;text-align:center;border:1px solid #ffffff22}.ac-gate-outcomes .go{color:#92d6a1}.ac-gate-outcomes .review{color:#dfc878}.ac-gate-outcomes .stop{color:#d59191}
@@ -65,202 +42,15 @@
 @media(max-width:800px){.ac-media-kpis,.ac-sports-strip,.ac-division-grid,.ac-media-command-row,.ac-simple-grid{grid-template-columns:1fr 1fr}}
 
 
-/* Phase 2A isometric renderer — presentation-only depth over the existing truthful campus DOM. */
-.ac-rendered-iso{perspective:1400px;perspective-origin:50% 36%;cursor:grab}.ac-rendered-iso.is-dragging{cursor:grabbing}
-.ac-rendered-iso:after{content:"";position:absolute;inset:7% 4% 5%;border-radius:42% 48% 40% 52%;background:
- radial-gradient(circle at 28% 25%,#5d824f33,transparent 20%),
- radial-gradient(circle at 72% 68%,#4e755133,transparent 22%),
- linear-gradient(145deg,#304b35aa,#1b3022dd);
- transform:rotateX(63deg) rotateZ(-5deg) translateZ(-80px);transform-origin:center;box-shadow:0 80px 120px #0008;z-index:0;pointer-events:none}
-#ac-campus-layer{transform-style:preserve-3d;transform-origin:50% 48%;transform:translate(var(--ac-pan-x,0),var(--ac-pan-y,0)) rotateX(58deg) rotateZ(-5deg) scale(var(--ac-zoom,1));transition:transform .18s ease}
-.ac-rendered-iso.is-dragging #ac-campus-layer{transition:none}
-.ac-rendered-iso .ac-campus{transform-style:preserve-3d;transform-origin:center bottom}
-.ac-rendered-iso .ac-campus>*{transform-style:preserve-3d}
-.ac-rendered-iso .ac-campus b,.ac-rendered-iso .ac-campus small,.ac-rendered-iso .ac-campus em{transform:rotateZ(5deg) rotateX(-58deg) translateZ(36px);transform-origin:center}
-.ac-rendered-iso .ac-hq{transform:translate(-50%,-50%) translateZ(46px)}.ac-rendered-iso .ac-hq:hover{transform:translate(-50%,-50%) translateZ(64px)}
-.ac-rendered-iso .ac-media,.ac-rendered-iso .ac-rnd,.ac-rendered-iso .ac-commerce,.ac-rendered-iso .ac-agency,.ac-rendered-iso .ac-finance{transform:translateZ(28px)}
-.ac-rendered-iso .ac-media:hover,.ac-rendered-iso .ac-rnd:hover,.ac-rendered-iso .ac-commerce:hover,.ac-rendered-iso .ac-agency:hover,.ac-rendered-iso .ac-finance:hover{transform:translateZ(46px)}
-.ac-building-shadow{position:absolute;left:50%;top:46%;width:128px;height:52px;transform:translate(-42%,-50%) rotateZ(-10deg) translateZ(-6px);border-radius:50%;background:#0007;filter:blur(9px);pointer-events:none}
-.ac-hq .ac-building-shadow{width:190px;height:68px;top:43%;background:#0008}
-.ac-isometric-building{transform:skewY(-5deg) rotateZ(1deg) translateZ(10px)!important}
-.ac-isometric-building>i{box-shadow:inset -8px -6px 12px #0002,0 2px 0 #fff2}
-.ac-isometric-building>i:before{content:"";position:absolute;right:-12px;top:7px;width:12px;height:calc(100% - 6px);background:linear-gradient(180deg,#767d7f,#535a5d);transform:skewY(38deg);transform-origin:left top;border:1px solid #0002}
-.ac-isometric-building>i:after{content:"";position:absolute;left:6px;top:-10px;width:calc(100% - 2px);height:10px;background:linear-gradient(90deg,#f0ede5,#c7c1b5);transform:skewX(-48deg);transform-origin:left bottom;border:1px solid #fff4}
-.ac-building-hq .ac-dome:before{content:"";position:absolute;inset:5px 7px 0;border-radius:50% 50% 34% 34%;background:linear-gradient(135deg,#fff9,#8f8b82aa);box-shadow:inset -8px -3px 10px #0002}
-.ac-building-hq .ac-main:after,.ac-building-hq .ac-wing:after{background:linear-gradient(90deg,#f1ede3,#c8c2b6)}
-.ac-rendered-iso .ac-road{transform:rotateX(64deg) translateZ(-22px);transform-origin:center;box-shadow:inset 0 0 0 2px #20262b,0 16px 18px #0005}
-.ac-rendered-iso .r1{transform:rotateX(64deg) rotateZ(-7deg) translateZ(-22px)}
-.ac-rendered-iso .r2{transform:rotateX(64deg) rotateZ(9deg) translateZ(-22px)}
-.ac-rendered-iso .r3{transform:rotateX(64deg) rotateZ(17deg) translateZ(-22px)}
-.ac-rendered-iso .r4{transform:rotateX(64deg) rotateZ(-18deg) translateZ(-22px)}
-.ac-rendered-iso .r5{transform:rotateX(64deg) rotateZ(2deg) translateZ(-22px)}
-.ac-rendered-iso .ac-plaza,.ac-rendered-iso .ac-mall,.ac-rendered-iso .ac-green,.ac-rendered-iso .ac-water{filter:drop-shadow(0 18px 14px #0004)}
-.ac-camera-controls{position:absolute;right:24px;bottom:24px;z-index:7;display:flex;gap:6px;padding:6px;background:#0c1218cc;border:1px solid #74828c66;backdrop-filter:blur(8px)}.ac-camera-controls button{border:1px solid #87959e;background:#151e26;color:#e6edf0;font:15px VT323;padding:7px 10px;cursor:pointer}.ac-camera-controls button:hover{background:#202c36}
-.ac-rendered-iso .ac-campus:focus-visible{outline:2px solid #d8bd76;outline-offset:8px}
-@media(max-width:900px){#ac-campus-layer{transform:translate(var(--ac-pan-x,0),var(--ac-pan-y,0)) rotateX(55deg) rotateZ(-5deg) scale(calc(var(--ac-zoom,1) * .84))}.ac-camera-controls{right:12px;bottom:12px}}
-
-
-/* Phase 2A campus identities — silhouettes communicate function without asserting business state. */
-.ac-media .ac-building{width:142px;height:92px}.ac-media .ac-building i:nth-child(1){left:22px;width:98px;height:64px;background:linear-gradient(145deg,#d7c7ad,#887a67)}.ac-media .ac-building i:nth-child(2){width:28px;height:48px;background:linear-gradient(145deg,#b7a58a,#736654)}.ac-media .ac-building i:nth-child(3){width:30px;height:54px;background:linear-gradient(145deg,#c6b597,#7a6c59)}
-.ac-media .ac-building:before{content:"MEDIA";position:absolute;left:42px;bottom:22px;width:58px;padding:2px 0;border:1px solid #efe2c355;background:#2c2925aa;color:#e6d5ad;font:11px VT323;text-align:center;letter-spacing:1px;z-index:4}
-.ac-rnd .ac-building{width:138px;height:100px}.ac-rnd .ac-building i:nth-child(1){left:25px;width:88px;height:76px;background:linear-gradient(145deg,#b7d0d6cc,#657b83cc);backdrop-filter:blur(2px)}.ac-rnd .ac-building i:nth-child(2),.ac-rnd .ac-building i:nth-child(3){height:58px;background:linear-gradient(145deg,#91adb6cc,#526971cc)}
-.ac-rnd .ac-building:before{content:"";position:absolute;left:36px;top:12px;width:65px;height:44px;background:repeating-linear-gradient(90deg,#d5edf044 0 8px,#38515a55 8px 10px);border:1px solid #cfe5e755;z-index:4}
-.ac-finance .ac-building i:nth-child(1),.ac-commerce .ac-building i:nth-child(1),.ac-agency .ac-building i:nth-child(1){background:linear-gradient(145deg,#9a9c97,#666b68)}
-.ac-finance .ac-building,.ac-commerce .ac-building,.ac-agency .ac-building{opacity:.7;filter:saturate(.55)}
-.ac-finance .ac-building:before,.ac-commerce .ac-building:before,.ac-agency .ac-building:before{content:"";position:absolute;inset:8px -8px 2px;border:1px dashed #c8b77d99;background:repeating-linear-gradient(90deg,transparent 0 20px,#c8b77d33 20px 22px);z-index:5;transform:translateZ(18px)}
-.ac-finance .ac-building:after,.ac-commerce .ac-building:after,.ac-agency .ac-building:after{box-shadow:0 0 0 1px #c8b77d44,0 8px 18px #0008}
-.ac-campus .ac-state{position:relative}.ac-campus .ac-state:before{content:"";display:inline-block;width:6px;height:6px;margin-right:5px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor;vertical-align:1px}
-
-
-/* Phase 2B live city cues — driven only by proven enterprise state. */
-.ac-campus.is-selected{z-index:8;filter:drop-shadow(0 24px 20px #000b) drop-shadow(0 0 18px #d3bd7a55)}
-.ac-campus.is-selected .ac-building{filter:brightness(1.08)}
-.ac-campus.is-selected:after{content:"";position:absolute;left:50%;top:42%;width:170px;height:90px;transform:translate(-50%,-50%) rotateZ(-6deg) translateZ(-12px);border:2px solid #d8c27a88;border-radius:50%;box-shadow:0 0 24px #d8c27a33,inset 0 0 18px #d8c27a22;pointer-events:none}
-.ac-hq.is-selected:after{width:230px;height:120px}
-.ac-campus.has-live .ac-state:after{content:"";position:absolute;right:-9px;top:50%;width:5px;height:5px;margin-top:-2px;border-radius:50%;background:#93d6a2;box-shadow:0 0 9px #93d6a2;animation:ac-live-pulse 1.8s ease-in-out infinite}
-.ac-hq.attention-watch .ac-state{color:#e0cc78}.ac-hq.attention-watch .ac-state:after{background:#e0cc78;box-shadow:0 0 10px #e0cc78}
-.ac-hq.attention-decide .ac-state{color:#e4ab69}.ac-hq.attention-decide .ac-state:after{background:#e4ab69;box-shadow:0 0 12px #e4ab69}
-.ac-hq.attention-decide .ac-building-hq{filter:drop-shadow(0 0 12px #e4ab6944)}
-.ac-media.has-live .ac-building{filter:drop-shadow(0 0 9px #d9be7940)}
-@keyframes ac-live-pulse{0%,100%{opacity:.45;transform:scale(.8)}50%{opacity:1;transform:scale(1.35)}}
-@media(prefers-reduced-motion:reduce){.ac-campus.has-live .ac-state:after{animation:none}.ac-campus,.ac-campus:hover,#ac-campus-layer{transition:none!important}}
-
-
-/* Phase 2B ambient world polish — environmental motion, never business telemetry. */
-.ac-water{overflow:hidden}.ac-water:before,.ac-water:after{content:"";position:absolute;left:-15%;width:130%;height:2px;background:linear-gradient(90deg,transparent,#b8e1e544,transparent);transform:rotate(-5deg)}
-.ac-water:before{top:38%;animation:ac-water-drift 7s linear infinite}.ac-water:after{top:63%;animation:ac-water-drift 9s linear reverse infinite}
-.ac-green:before{content:"";position:absolute;inset:10% 8%;background:
- radial-gradient(circle at 12% 28%,#203d29 0 5px,transparent 6px),
- radial-gradient(circle at 30% 62%,#26472f 0 6px,transparent 7px),
- radial-gradient(circle at 52% 25%,#284b31 0 5px,transparent 6px),
- radial-gradient(circle at 70% 68%,#203d29 0 6px,transparent 7px),
- radial-gradient(circle at 88% 34%,#2c5035 0 5px,transparent 6px);filter:drop-shadow(4px 7px 3px #0005)}
-.ac-rendered-iso .ac-skyline:after{content:"";position:absolute;left:18%;right:18%;top:20%;height:70%;background:radial-gradient(ellipse at center,#d7e7e514,transparent 62%);filter:blur(18px);animation:ac-ambient-breathe 8s ease-in-out infinite}
-.ac-commerce:after,.ac-agency:after,.ac-finance:after{content:"";position:absolute;left:50%;top:22%;width:62px;height:3px;background:#c6ad6c88;transform:translateX(-50%) rotateZ(-8deg) translateZ(42px);box-shadow:-27px 14px 0 -1px #9b8c6a88,24px 18px 0 -1px #9b8c6a66;pointer-events:none}
-.ac-commerce .ac-building:before,.ac-agency .ac-building:before,.ac-finance .ac-building:before{animation:ac-construction-scan 5s linear infinite}
-@keyframes ac-water-drift{from{transform:translateX(-8%) rotate(-5deg)}to{transform:translateX(8%) rotate(-5deg)}}
-@keyframes ac-ambient-breathe{0%,100%{opacity:.45;transform:scale(.98)}50%{opacity:.8;transform:scale(1.02)}}
-@keyframes ac-construction-scan{0%,100%{opacity:.55}50%{opacity:.9}}
-@media(prefers-reduced-motion:reduce){.ac-water:before,.ac-water:after,.ac-rendered-iso .ac-skyline:after,.ac-commerce .ac-building:before,.ac-agency .ac-building:before,.ac-finance .ac-building:before{animation:none}}
-
-
-/* Phase 2C district flow — animated only when live enterprise activity is proven. */
-.ac-enterprise-flow{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.26;transition:opacity .25s ease}
-.ac-flow-line{position:absolute;left:25%;top:34%;width:29%;height:3px;background:linear-gradient(90deg,#d4bb7866,#91c5b566);transform:rotate(11deg);transform-origin:left center;box-shadow:0 0 8px #b8d7c833}
-.ac-flow-line:after{content:"";position:absolute;inset:-5px 0;border-top:1px dashed #d9ceb844;border-bottom:1px dashed #8fb5a544}
-.ac-flow-node{position:absolute;width:9px;height:9px;border-radius:50%;background:#cdb77688;box-shadow:0 0 10px #cdb77655}
-.ac-flow-node.n-media{left:24.7%;top:33.7%}.ac-flow-node.n-hq{left:52.7%;top:38.8%}
-.ac-flow-pulse{position:absolute;left:25%;top:33.7%;width:8px;height:8px;border-radius:50%;background:#a8e2c2;box-shadow:0 0 12px #a8e2c2;opacity:0}
-.media-flow-live .ac-enterprise-flow{opacity:.9}
-.media-flow-live .ac-flow-pulse{opacity:1;animation:ac-flow-travel 3.6s linear infinite}
-.media-flow-live .ac-flow-pulse.p2{animation-delay:-1.8s}
-@keyframes ac-flow-travel{
-  0%{transform:translate(0,0) scale(.7);opacity:0}
-  10%{opacity:1}
-  50%{transform:translate(210px,40px) scale(1)}
-  90%{opacity:1}
-  100%{transform:translate(420px,80px) scale(.7);opacity:0}
-}
-.ac-city-depth{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.45}
-.ac-city-depth i{position:absolute;width:16px;height:42px;background:linear-gradient(#263c2a,#17251b);border-radius:70% 70% 28% 28%;filter:drop-shadow(5px 8px 3px #0005)}
-.ac-city-depth i:nth-child(1){left:18%;top:18%;transform:scale(.9)}
-.ac-city-depth i:nth-child(2){left:31%;top:62%;transform:scale(1.1)}
-.ac-city-depth i:nth-child(3){left:68%;top:22%;transform:scale(.8)}
-.ac-city-depth i:nth-child(4){left:76%;top:57%;transform:scale(1.2)}
-.ac-city-depth i:nth-child(5){left:43%;top:75%;transform:scale(.75)}
-.ac-city-depth i:nth-child(6){left:88%;top:34%;transform:scale(.95)}
-.ac-campus.is-selected~*{}
-@media(prefers-reduced-motion:reduce){.media-flow-live .ac-flow-pulse{animation:none;opacity:.8}}
-
-.ac-rendered-iso.has-focus .ac-campus:not(.is-selected){opacity:.58;filter:saturate(.72) brightness(.78)}
-.ac-rendered-iso.has-focus .ac-campus.is-selected{opacity:1}
-.ac-rendered-iso.has-focus .ac-road,.ac-rendered-iso.has-focus .ac-green,.ac-rendered-iso.has-focus .ac-water{filter:brightness(.82) saturate(.82)}
-
-
-/* Phase 2D civic grounds. */
-.ac-civic-grounds{position:absolute;inset:0;z-index:2;pointer-events:none}
-.ac-fountain{position:absolute;left:49.4%;top:43.5%;width:42px;height:22px;border-radius:50%;border:3px solid #c9c1aa99;background:radial-gradient(circle,#8bb7c7aa 0 34%,#d7d0bd44 36% 52%,transparent 54%);box-shadow:0 7px 12px #0004}
-.ac-fountain:after{content:"";position:absolute;left:50%;top:-9px;width:3px;height:12px;background:linear-gradient(#dff6ffbb,#8ab6c4aa);transform:translateX(-50%);box-shadow:0 0 8px #ccefff88}
-.ac-walkway{position:absolute;height:7px;background:linear-gradient(90deg,#bdb6a36b,#ded7c571,#bdb6a36b);border:1px solid #f2ebd544;box-shadow:0 4px 8px #0003}
-.ac-walkway.w1{left:41%;top:49%;width:18%;transform:rotate(-5deg)}
-.ac-walkway.w2{left:47%;top:36%;width:9%;transform:rotate(86deg)}
-.ac-lamp{position:absolute;width:3px;height:20px;background:#5d6263;box-shadow:0 0 0 1px #252a2b}
-.ac-lamp:after{content:"";position:absolute;left:-3px;top:-5px;width:9px;height:6px;border-radius:50%;background:#dfcc8d;box-shadow:0 0 11px #e9d99d88}
-.ac-lamp.l1{left:43%;top:46%}.ac-lamp.l2{left:47%;top:50%}.ac-lamp.l3{left:54%;top:45%}.ac-lamp.l4{left:58%;top:49%}
-
-
-/* Phase 2E Command approach — reinforce HQ as the enterprise seat of control. */
-.ac-hq .ac-building-hq{filter:drop-shadow(0 18px 16px #0008)}
-.ac-hq .ac-building-hq:before{content:"";position:absolute;left:20px;right:20px;bottom:2px;height:8px;background:linear-gradient(90deg,transparent,#d6c48d66,transparent);filter:blur(3px);z-index:-1}
-.ac-rendered-iso[data-focus="hq"] .ac-building-hq{filter:drop-shadow(0 24px 20px #000b) drop-shadow(0 0 16px #d6c48d33);transform:translateZ(18px)}
-.ac-rendered-iso[data-focus="hq"] .ac-plaza{filter:brightness(1.08) drop-shadow(0 18px 16px #0005)}
-.ac-rendered-iso[data-focus="hq"] .ac-mall{filter:brightness(1.12) drop-shadow(0 18px 14px #0005)}
-.ac-rendered-iso[data-focus="hq"] .ac-hq b{color:#f1ead6;text-shadow:0 2px 4px #000,0 0 10px #d6c48d33}
-
-
-/* Phase 2F road hierarchy and approach detail. */
-.ac-road:after{content:"";position:absolute;left:4%;right:4%;top:50%;height:1px;background:repeating-linear-gradient(90deg,#d7c78388 0 14px,transparent 14px 28px)}
-.r1:before,.r3:before,.r4:before{content:"";position:absolute;width:34px;height:100%;top:0;background:repeating-linear-gradient(90deg,#eee9dbaa 0 4px,transparent 4px 8px);opacity:.6}
-.r1:before{left:49%}.r3:before{right:19%}.r4:before{left:24%}
-.ac-rendered-iso .ac-road{background:linear-gradient(180deg,#41494f,#30373c 48%,#2a3034 52%,#3a4247)}
-.ac-rendered-iso .ac-road:before{filter:drop-shadow(0 2px 1px #0005)}
-.ac-rendered-iso[data-focus="media"] .r3,.ac-rendered-iso[data-focus="rnd"] .r4,.ac-rendered-iso[data-focus="hq"] .r1{filter:brightness(1.12) drop-shadow(0 10px 10px #0005)}
-
-
-/* Phase 2G facade polish — richer materials without changing business state. */
-.ac-building i{overflow:visible}
-.ac-building i:nth-child(1){background-image:
-  linear-gradient(145deg,#d7d2c8,#8d9598),
-  repeating-linear-gradient(90deg,transparent 0 11px,#2d343844 11px 14px);
-  background-blend-mode:multiply}
-.ac-building i:nth-child(1):before{box-shadow:inset -2px 0 0 #ffffff14}
-.ac-building i:nth-child(1) .window{display:none}
-.ac-media .ac-building i:nth-child(1){background:
-  repeating-linear-gradient(90deg,#d3c2a6 0 13px,#766956 13px 16px),
-  linear-gradient(145deg,#d7c7ad,#887a67)}
-.ac-media .ac-building i:nth-child(2),.ac-media .ac-building i:nth-child(3){box-shadow:inset -5px -6px 10px #0002}
-.ac-rnd .ac-building i:nth-child(1){background:
-  repeating-linear-gradient(90deg,#bbd4daaa 0 10px,#405b64aa 10px 13px),
-  linear-gradient(145deg,#b7d0d6cc,#657b83cc)}
-.ac-rnd .ac-building i:nth-child(2),.ac-rnd .ac-building i:nth-child(3){border-color:#cde2e677}
-.ac-hq .ac-main{background:
-  repeating-linear-gradient(90deg,#eae4d9 0 12px,#b8b0a2 12px 15px),
-  linear-gradient(145deg,#f0ebe1,#b9b4a8)}
-.ac-hq .ac-wing{background:
-  repeating-linear-gradient(90deg,#d9d2c5 0 10px,#aaa397 10px 13px),
-  linear-gradient(145deg,#ddd7ca,#9f9a90)}
-.ac-building:before{pointer-events:none}
-.ac-campus:not(.ac-hq) .ac-building:after{background:radial-gradient(ellipse at center,#10141466,transparent 70%);height:14px}
-.ac-rendered-iso .ac-building{transition:filter .2s ease,transform .2s ease}
-.ac-rendered-iso .ac-campus:hover .ac-building{filter:brightness(1.08) contrast(1.03)}
-
-
-/* Phase 2H executive panel and chrome polish. */
-.ac-panel{background:linear-gradient(180deg,#0d141ceB,#0a1016f4);border-left:1px solid #83929c66;box-shadow:-28px 0 80px #0008,inset 1px 0 0 #ffffff08}
-.ac-panel:before{content:"";position:absolute;left:0;right:0;top:0;height:64px;background:linear-gradient(180deg,#ffffff05,transparent);pointer-events:none}
-.ac-panel h2{letter-spacing:.5px;text-shadow:0 2px 8px #0008}
-.ac-panel button{transition:background .15s ease,border-color .15s ease,transform .15s ease}
-.ac-panel button:hover{background:#202a33;border-color:#9aaab4;transform:translateY(-1px)}
-.ac-exec-grid section,.ac-campus-room-grid article,.ac-simple-grid p,.ac-media-kpis article,.ac-sports-strip span{box-shadow:inset 0 1px 0 #ffffff07,0 7px 16px #0002}
-.ac-hq-metrics article{box-shadow:inset 0 1px 0 #ffffff08,0 8px 18px #0003}
-.ac-kicker{font-size:14px;color:#9eb0ba}
-.ac-breadcrumb{color:#83959f}
-.ac-top{box-shadow:0 8px 24px #0005}
-.ac-top strong{text-shadow:0 2px 8px #0008}
-.ac-launch{border-radius:2px;box-shadow:0 8px 24px #0009,0 0 16px #d8b75e18}
-
-/* Keep peripheral campuses inside the initial desktop camera. */
-@media(min-width:801px){#ac-campus-layer{inset:4% 7% 8%}}
-/* Narrow screens use a readable campus map with the same district controls. */
+/* Shared district panels inherit the campus typography. */
+.ac-breadcrumb{font-size:9px;letter-spacing:1.2px;color:#91aa9b}.ac-panel .ac-section-title{font-size:11px}.ac-panel .ac-campus-room-grid b{font-size:13px}.ac-panel .ac-campus-room-grid span{font-size:12px;line-height:1.6}.ac-panel .ac-media-kpis span{font-size:9px}.ac-panel .ac-media-kpis b{font-size:18px}.ac-panel .ac-division span{font-size:11px}.ac-panel .ac-division em{font-size:9px}.ac-workflow b{font-size:11px}.ac-workflow span{font-size:12px;line-height:1.6}.ac-chain{font-size:10px}.ac-campus-room-grid article,.ac-division,.ac-media-kpis article,.ac-workflow article,.ac-simple-grid p,.ac-sports-strip span{border-radius:6px;background:#19362c88}
 @media(max-width:800px){
- .ac-world{overflow-y:auto;perspective:none}
- #ac-campus-layer{position:relative;inset:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 8px;padding:28px 12px 120px;transform:none!important;box-sizing:border-box}
- .ac-rendered-iso .ac-campus,.ac-rendered-iso .ac-campus:hover{position:relative;inset:auto;display:block;width:100%;height:180px;transform:none}
- .ac-rendered-iso .ac-campus b,.ac-rendered-iso .ac-campus small,.ac-rendered-iso .ac-campus em{transform:none}
- .ac-rendered-iso .ac-campus .ac-building{transform:rotateX(20deg) rotateZ(-5deg);margin-bottom:18px}
- .ac-finance{display:block}
- .ac-legend,.ac-parallax,.ac-campus-gates,.ac-arrival-zones,.ac-mall,.ac-plaza,.ac-road,.ac-civic-grounds,.ac-enterprise-flow,.ac-grand-boulevard{display:none}
- .ac-camera-controls{display:none}
- .ac-panel{position:fixed;top:73px;bottom:0;width:100%;padding:60px 18px 24px;box-sizing:border-box}
- .ac-top strong{font-size:21px}.ac-top span{font-size:12px}.ac-top-actions{gap:0}.ac-top button{font-size:13px;padding:7px}
+ .ac-top{padding:15px 18px;gap:10px}.ac-brand-mark{display:none}.ac-brand strong{font-size:11px;letter-spacing:1.2px}.ac-brand div>span{font-size:8px}.ac-top-actions{gap:0}.ac-top button{font-size:10px;padding:7px 8px}.ac-link{display:none}
+ .ac-intro{padding:23px 22px 20px}.ac-intro h1{font-size:28px;max-width:270px}.ac-intro p{font-size:11px;max-width:240px}.ac-phase{display:none}
+ .ac-world{min-height:710px;margin:0 12px;cursor:default;flex:none;background:radial-gradient(ellipse at 50% 20%,#325442,#182f29)}
+ #ac-campus-layer{position:relative;inset:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 8px;padding:48px 10px 55px;transform:none!important}
+ .ac-landscape{display:none}.ac-campus{position:relative;inset:auto;width:100%;height:190px;border:1px solid #8ca77e30;background:#213f3280;border-radius:12px;gap:4px;padding:10px 4px}.ac-campus b{font-size:11px;letter-spacing:.5px}.ac-campus small{font-size:8px;letter-spacing:.4px}.ac-building,.ac-building-hq{height:100px;width:100%;min-height:80px}.ac-state{font-size:7px;letter-spacing:.5px}
+ .ac-legend{left:15px;right:15px;justify-content:center;gap:13px;font-size:8px}.ac-map-caption{left:17px;right:17px;font-size:8px}.ac-camera-controls{display:none}.ac-world.has-focus .ac-campus:not(.is-selected){opacity:1}.ac-footer{padding:14px 22px;display:block;font-size:8px}.ac-footer span{display:block;margin-bottom:5px}
+ .ac-panel{width:100%;padding:64px 20px 25px}.ac-panel h2{font-size:30px}.ac-media-kpis,.ac-sports-strip{grid-template-columns:repeat(2,minmax(0,1fr))}.ac-campus-room-grid{grid-template-columns:1fr}
 }
+@media(max-height:720px) and (min-width:801px){.ac-intro{padding-top:15px;padding-bottom:15px}.ac-intro h1{font-size:29px}.ac-top{padding-top:13px;padding-bottom:13px}.ac-world{min-height:410px}.ac-footer{padding-top:9px;padding-bottom:9px}}
