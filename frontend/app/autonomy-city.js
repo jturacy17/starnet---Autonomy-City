@@ -41,7 +41,7 @@ const AutonomyCity = (() => {
     root.querySelector('#ac-close').onclick=close;
     root.querySelector('#ac-panel-close').onclick=()=>panel.classList.remove('open');
     layer.addEventListener('click',e=>{const btn=e.target.closest('[data-campus]');if(btn)openCampus(btn.dataset.campus);});
-    panel.addEventListener('click',e=>{const nav=e.target.closest('[data-ac-nav]');if(nav)openCampus(nav.dataset.acNav);});
+    panel.addEventListener('click',e=>{const nav=e.target.closest('[data-ac-nav]');if(nav){openCampus(nav.dataset.acNav);return;}const media=e.target.closest('[data-media-nav]');if(media)openMedia(media.dataset.mediaNav);});
   }
   function renderUnavailable(){
     panel.querySelector('#ac-panel-body').innerHTML=
@@ -65,19 +65,19 @@ const AutonomyCity = (() => {
       +'<section><h3>INFORM <i>'+Number(inform.count||0)+'</i></h3>'+cards(inform.items||[],'inform')+'</section></div>'
       +'<div class="ac-panel-nav"><button data-ac-nav="media">ENTER MEDIA CAMPUS</button><button data-ac-nav="rnd">ENTER R&D</button></div>';
   }
-  function mediaDetail(){
-    const data=lastCommand,opp=data&&data.portfolio&&data.portfolio.opportunities?data.portfolio.opportunities:null;
-    const experiments=data&&data.portfolio&&data.portfolio.experiments?data.portfolio.experiments:null;
-    const live=!!data;
-    return '<div class="ac-breadcrumb">CITY › MEDIA CAMPUS</div><div class="ac-kicker">OPERATING CAMPUS</div><h2>Media</h2>'
-      +'<p class="ac-campus-copy">Sports Clipping is the first operational pilot. The Media Manager owns delivery; executor agents perform assigned work and return it for management review.</p>'
-      +'<div class="ac-campus-room-grid">'
-      +'<article><b>SPORTS OPERATIONS</b><span>Source discovery · analysis · production</span><em>PILOT</em></article>'
-      +'<article><b>RIGHTS & MONETIZATION</b><span>Ownership · licensing · platform eligibility</span><em>GATE</em></article>'
-      +'<article><b>PERFORMANCE LAB</b><span>Experiments · measurement · learning</span><em>ACTIVE</em></article>'
-      +'<article><b>MANAGER OFFICE</b><span>Queue · quality · blockers · corrective actions</span><em>ACTIVE</em></article></div>'
-      +(live?'<div class="ac-campus-stats"><span>OPPORTUNITIES <b>'+Number(opp&&opp.total||0)+'</b></span><span>COMPLETED EXPERIMENTS <b>'+Number(experiments&&experiments.completed||0)+'</b></span></div>':'<div class="ac-data-note">LIVE CAMPUS METRICS UNAVAILABLE</div>')
-      +'<div class="ac-panel-nav"><button data-ac-nav="hq">BACK TO COMMAND HQ</button></div>';
+  function mediaDetail(){ return window.MediaHome&&MediaHome.render?MediaHome.render(lastCommand):'<h2>Media</h2>'; }
+  function openMedia(id){
+    panel.classList.add('open');
+    let html='';
+    if(!id||id==='home') html=mediaDetail();
+    else if(id==='sports'&&window.MediaSports) html=MediaSports.render(lastCommand);
+    else if(id==='management'&&window.MediaManagement) html=MediaManagement.render(lastCommand);
+    else if(id==='rights'&&window.MediaRights) html=MediaRights.render(lastCommand);
+    else if(id==='performance'&&window.MediaPerformance) html=MediaPerformance.render(lastCommand);
+    else if(id==='workforce'&&window.MediaWorkforce) html=MediaWorkforce.render(lastCommand);
+    else if(window.MediaFuture) html=MediaFuture.render(id);
+    else html='<h2>Media</h2>';
+    panel.querySelector('#ac-panel-body').innerHTML=html;
   }
   function rndDetail(){
     return '<div class="ac-breadcrumb">CITY › R&D / INNOVATION</div><div class="ac-kicker">SYSTEM CAMPUS</div><h2>R&D / Innovation</h2>'
@@ -94,7 +94,7 @@ const AutonomyCity = (() => {
   function openCampus(id){
     panel.classList.add('open');
     if(id==='hq'){renderBrief(lastCommand);return;}
-    if(id==='media')panel.querySelector('#ac-panel-body').innerHTML=mediaDetail();
+    if(id==='media')openMedia('home');
     else if(id==='rnd')panel.querySelector('#ac-panel-body').innerHTML=rndDetail();
     else panel.querySelector('#ac-panel-body').innerHTML=constructionDetail(id);
   }
