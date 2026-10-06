@@ -205,3 +205,31 @@
 .ac-rendered-iso .ac-road{background:linear-gradient(180deg,#41494f,#30373c 48%,#2a3034 52%,#3a4247)}
 .ac-rendered-iso .ac-road:before{filter:drop-shadow(0 2px 1px #0005)}
 .ac-rendered-iso[data-focus="media"] .r3,.ac-rendered-iso[data-focus="rnd"] .r4,.ac-rendered-iso[data-focus="hq"] .r1{filter:brightness(1.12) drop-shadow(0 10px 10px #0005)}
+
+
+/* Phase 2G facade polish — richer materials without changing business state. */
+.ac-building i{overflow:visible}
+.ac-building i:nth-child(1){background-image:
+  linear-gradient(145deg,#d7d2c8,#8d9598),
+  repeating-linear-gradient(90deg,transparent 0 11px,#2d343844 11px 14px);
+  background-blend-mode:multiply}
+.ac-building i:nth-child(1):before{box-shadow:inset -2px 0 0 #ffffff14}
+.ac-building i:nth-child(1) .window{display:none}
+.ac-media .ac-building i:nth-child(1){background:
+  repeating-linear-gradient(90deg,#d3c2a6 0 13px,#766956 13px 16px),
+  linear-gradient(145deg,#d7c7ad,#887a67)}
+.ac-media .ac-building i:nth-child(2),.ac-media .ac-building i:nth-child(3){box-shadow:inset -5px -6px 10px #0002}
+.ac-rnd .ac-building i:nth-child(1){background:
+  repeating-linear-gradient(90deg,#bbd4daaa 0 10px,#405b64aa 10px 13px),
+  linear-gradient(145deg,#b7d0d6cc,#657b83cc)}
+.ac-rnd .ac-building i:nth-child(2),.ac-rnd .ac-building i:nth-child(3){border-color:#cde2e677}
+.ac-hq .ac-main{background:
+  repeating-linear-gradient(90deg,#eae4d9 0 12px,#b8b0a2 12px 15px),
+  linear-gradient(145deg,#f0ebe1,#b9b4a8)}
+.ac-hq .ac-wing{background:
+  repeating-linear-gradient(90deg,#d9d2c5 0 10px,#aaa397 10px 13px),
+  linear-gradient(145deg,#ddd7ca,#9f9a90)}
+.ac-building:before{pointer-events:none}
+.ac-campus:not(.ac-hq) .ac-building:after{background:radial-gradient(ellipse at center,#10141466,transparent 70%);height:14px}
+.ac-rendered-iso .ac-building{transition:filter .2s ease,transform .2s ease}
+.ac-rendered-iso .ac-campus:hover .ac-building{filter:brightness(1.08) contrast(1.03)}
