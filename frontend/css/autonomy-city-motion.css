@@ -36,3 +36,11 @@
 .ac-parallax .near-tree{position:absolute;bottom:2%;width:24px;height:58px;border-radius:65% 65% 32% 32%;background:linear-gradient(#263f2d,#132219);filter:drop-shadow(7px 10px 5px #0008)}
 .ac-parallax .t1{left:4%;transform:scale(1.25)}.ac-parallax .t2{left:22%;transform:scale(.9)}.ac-parallax .t3{right:18%;transform:scale(1.05)}.ac-parallax .t4{right:4%;transform:scale(1.4)}
 .ac-rendered-iso.has-focus .ac-parallax{filter:brightness(.68) blur(.2px)}
+
+.ac-service-traffic .v1{animation:ac-service-main 22s linear infinite}
+.ac-service-traffic .v2{animation:ac-service-east 27s linear infinite}
+.ac-service-traffic .v3{animation:ac-service-spine 31s linear infinite}
+@keyframes ac-service-main{0%{transform:translate(-90px,18px) rotate(-7deg)}100%{transform:translate(1180px,-130px) rotate(-7deg)}}
+@keyframes ac-service-east{0%{transform:translate(80px,-10px) rotate(162deg)}100%{transform:translate(-760px,250px) rotate(162deg)}}
+@keyframes ac-service-spine{0%{transform:translate(-35px,-120px) rotate(99deg)}100%{transform:translate(180px,620px) rotate(99deg)}}
+@media(prefers-reduced-motion:reduce){.ac-service-traffic i{animation:none!important}}
