@@ -61,6 +61,12 @@ const AutonomyRenderer=(()=>{
     const boulevard=document.createElement('div');boulevard.className='ac-grand-boulevard';boulevard.setAttribute('aria-hidden','true');
     boulevard.innerHTML='<span></span><i></i><i></i><i></i><i></i>';
     world.appendChild(boulevard);
+    const gates=document.createElement('div');gates.className='ac-campus-gates';gates.setAttribute('aria-hidden','true');
+    gates.innerHTML='<span class="gate hq"><b>COMMAND</b></span><span class="gate media"><b>MEDIA</b></span><span class="gate rnd"><b>R&D</b></span><span class="gate commerce"><b>COMMERCE</b></span><span class="gate agency"><b>AGENCY</b></span><span class="gate finance"><b>FINANCE</b></span>';
+    world.appendChild(gates);
+    const parallax=document.createElement('div');parallax.className='ac-parallax';parallax.setAttribute('aria-hidden','true');
+    parallax.innerHTML='<span class="ridge r-a"></span><span class="ridge r-b"></span><span class="near-tree t1"></span><span class="near-tree t2"></span><span class="near-tree t3"></span><span class="near-tree t4"></span>';
+    world.appendChild(parallax);
   }
   function decorateBuildings(root){
     root.querySelectorAll('.ac-campus').forEach(c=>{
