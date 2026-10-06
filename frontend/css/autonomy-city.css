@@ -196,3 +196,12 @@
 .ac-rendered-iso[data-focus="hq"] .ac-plaza{filter:brightness(1.08) drop-shadow(0 18px 16px #0005)}
 .ac-rendered-iso[data-focus="hq"] .ac-mall{filter:brightness(1.12) drop-shadow(0 18px 14px #0005)}
 .ac-rendered-iso[data-focus="hq"] .ac-hq b{color:#f1ead6;text-shadow:0 2px 4px #000,0 0 10px #d6c48d33}
+
+
+/* Phase 2F road hierarchy and approach detail. */
+.ac-road:after{content:"";position:absolute;left:4%;right:4%;top:50%;height:1px;background:repeating-linear-gradient(90deg,#d7c78388 0 14px,transparent 14px 28px)}
+.r1:before,.r3:before,.r4:before{content:"";position:absolute;width:34px;height:100%;top:0;background:repeating-linear-gradient(90deg,#eee9dbaa 0 4px,transparent 4px 8px);opacity:.6}
+.r1:before{left:49%}.r3:before{right:19%}.r4:before{left:24%}
+.ac-rendered-iso .ac-road{background:linear-gradient(180deg,#41494f,#30373c 48%,#2a3034 52%,#3a4247)}
+.ac-rendered-iso .ac-road:before{filter:drop-shadow(0 2px 1px #0005)}
+.ac-rendered-iso[data-focus="media"] .r3,.ac-rendered-iso[data-focus="rnd"] .r4,.ac-rendered-iso[data-focus="hq"] .r1{filter:brightness(1.12) drop-shadow(0 10px 10px #0005)}
