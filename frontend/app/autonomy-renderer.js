@@ -67,6 +67,9 @@ const AutonomyRenderer=(()=>{
     const parallax=document.createElement('div');parallax.className='ac-parallax';parallax.setAttribute('aria-hidden','true');
     parallax.innerHTML='<span class="ridge r-a"></span><span class="ridge r-b"></span><span class="near-tree t1"></span><span class="near-tree t2"></span><span class="near-tree t3"></span><span class="near-tree t4"></span>';
     world.appendChild(parallax);
+    const horizon=document.createElement('div');horizon.className='ac-horizon-layer';horizon.setAttribute('aria-hidden','true');
+    horizon.innerHTML='<span class="haze"></span><span class="skyline s1"></span><span class="skyline s2"></span><span class="skyline s3"></span><span class="skyline s4"></span><span class="skyline s5"></span>';
+    world.appendChild(horizon);
   }
   function decorateBuildings(root){
     root.querySelectorAll('.ac-campus').forEach(c=>{
