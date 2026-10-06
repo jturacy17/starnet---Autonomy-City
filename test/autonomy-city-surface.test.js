@@ -6,6 +6,9 @@ const html=fs.readFileSync(path.join(root,'frontend','index.html'),'utf8');
 const js=fs.readFileSync(path.join(root,'frontend','app','autonomy-city.js'),'utf8');
 const css=fs.readFileSync(path.join(root,'frontend','css','autonomy-city.css'),'utf8');
 const query=fs.readFileSync(path.join(root,'frontend','app','queryspine.js'),'utf8');
+const mediaHome=fs.readFileSync(path.join(root,'frontend','app','media-home.js'),'utf8');
+const mediaSports=fs.readFileSync(path.join(root,'frontend','app','media-sports.js'),'utf8');
+const renderer=fs.readFileSync(path.join(root,'frontend','app','autonomy-renderer.js'),'utf8');
 
 A.ok(html.includes('css/autonomy-city.css'),'Autonomy City stylesheet is loaded');
 A.ok(html.includes('app/autonomy-city.js'),'Autonomy City module is loaded');
@@ -33,12 +36,14 @@ A.ok(css.includes('@keyframes ac-water-drift'),'ambient environment motion is pr
 A.ok(css.includes('.media-flow-live'),'HQ to Media flow only animates from a live-state class');
 A.ok(css.includes('.ac-enterprise-flow'),'district connection layer is rendered');
 A.ok(css.includes('.ac-rendered-iso.has-focus'),'selected district visually separates from the wider city');
+A.ok(renderer.includes('ac-district-stage'),'renderer creates district entry staging');
+A.ok(html.includes('css/autonomy-city-motion.css'),'ambient motion stylesheet is loaded');
 A.ok(css.includes('.ac-water'),'campus layout reserves landscaped/water breathing room');
 A.ok(css.includes('.ac-hq-metrics'),'Command HQ includes an executive metric strip');
 A.ok(js.includes('ENTER MEDIA CAMPUS'),'Command HQ can drill into Media');
-A.ok(js.includes('SPORTS OPERATIONS'),'Media campus exposes operating areas');
-A.ok(js.includes('RIGHTS & MONETIZATION'),'Media campus exposes the monetization gate area');
-A.ok(js.includes('BACK TO COMMAND HQ'),'campus drilldowns preserve executive back-navigation');
+A.ok(mediaSports.includes('Sports Operations'),'Media campus exposes operating areas');
+A.ok(mediaHome.includes('RIGHTS & MONETIZATION'),'Media campus exposes the monetization gate area');
+A.ok(mediaHome.includes('BACK TO COMMAND HQ'),'campus drilldowns preserve executive back-navigation');
 A.ok(html.includes('app/media-home.js'),'Media home module is loaded');
 A.ok(html.includes('app/media-sports.js'),'Sports operations module is loaded');
 A.ok(html.includes('app/media-management.js'),'Media management module is loaded');
