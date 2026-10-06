@@ -175,3 +175,15 @@
 .ac-rendered-iso.has-focus .ac-campus:not(.is-selected){opacity:.58;filter:saturate(.72) brightness(.78)}
 .ac-rendered-iso.has-focus .ac-campus.is-selected{opacity:1}
 .ac-rendered-iso.has-focus .ac-road,.ac-rendered-iso.has-focus .ac-green,.ac-rendered-iso.has-focus .ac-water{filter:brightness(.82) saturate(.82)}
+
+
+/* Phase 2D civic grounds. */
+.ac-civic-grounds{position:absolute;inset:0;z-index:2;pointer-events:none}
+.ac-fountain{position:absolute;left:49.4%;top:43.5%;width:42px;height:22px;border-radius:50%;border:3px solid #c9c1aa99;background:radial-gradient(circle,#8bb7c7aa 0 34%,#d7d0bd44 36% 52%,transparent 54%);box-shadow:0 7px 12px #0004}
+.ac-fountain:after{content:"";position:absolute;left:50%;top:-9px;width:3px;height:12px;background:linear-gradient(#dff6ffbb,#8ab6c4aa);transform:translateX(-50%);box-shadow:0 0 8px #ccefff88}
+.ac-walkway{position:absolute;height:7px;background:linear-gradient(90deg,#bdb6a36b,#ded7c571,#bdb6a36b);border:1px solid #f2ebd544;box-shadow:0 4px 8px #0003}
+.ac-walkway.w1{left:41%;top:49%;width:18%;transform:rotate(-5deg)}
+.ac-walkway.w2{left:47%;top:36%;width:9%;transform:rotate(86deg)}
+.ac-lamp{position:absolute;width:3px;height:20px;background:#5d6263;box-shadow:0 0 0 1px #252a2b}
+.ac-lamp:after{content:"";position:absolute;left:-3px;top:-5px;width:9px;height:6px;border-radius:50%;background:#dfcc8d;box-shadow:0 0 11px #e9d99d88}
+.ac-lamp.l1{left:43%;top:46%}.ac-lamp.l2{left:47%;top:50%}.ac-lamp.l3{left:54%;top:45%}.ac-lamp.l4{left:58%;top:49%}
