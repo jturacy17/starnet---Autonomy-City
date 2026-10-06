@@ -11,3 +11,14 @@
 .ac-rendered-iso[data-focus="media"] .ac-media{filter:drop-shadow(0 25px 22px #000b) drop-shadow(0 0 18px #d0b27044)}
 .ac-rendered-iso[data-focus="rnd"] .ac-rnd{filter:drop-shadow(0 25px 22px #000b) drop-shadow(0 0 18px #9ac6cf44)}
 @media(prefers-reduced-motion:reduce){.ac-district-stage{transition:none}}
+
+.ac-arrival-zones{position:absolute;inset:0;z-index:1;pointer-events:none}
+.ac-arrival-zones .az{position:absolute;width:120px;height:54px;border:1px solid #d5c48f2e;border-radius:50%;background:radial-gradient(circle,#d6c58d14,transparent 68%);box-shadow:inset 0 0 20px #d6c58d10}
+.ac-arrival-zones .az.hq{left:44%;top:37%;width:180px;height:80px}.ac-arrival-zones .az.media{left:8%;top:24%}.ac-arrival-zones .az.rnd{right:8%;top:21%}.ac-arrival-zones .az.commerce{left:8%;bottom:9%}.ac-arrival-zones .az.agency{right:8%;bottom:10%}.ac-arrival-zones .az.finance{right:27%;top:16%}
+.ac-rendered-iso[data-focus="hq"] .az.hq,.ac-rendered-iso[data-focus="media"] .az.media,.ac-rendered-iso[data-focus="rnd"] .az.rnd,.ac-rendered-iso[data-focus="commerce"] .az.commerce,.ac-rendered-iso[data-focus="agency"] .az.agency,.ac-rendered-iso[data-focus="finance"] .az.finance{border-color:#e4ce876f;background:radial-gradient(circle,#dccb8b28,transparent 70%);box-shadow:0 0 24px #d8bf6d26,inset 0 0 24px #d8bf6d1f}
+.ac-grand-boulevard{position:absolute;inset:0;z-index:1;pointer-events:none}
+.ac-grand-boulevard>span{position:absolute;left:34%;top:58%;width:34%;height:18px;background:linear-gradient(180deg,#41494f,#2b3237);border:1px solid #687179;transform:rotate(-4deg);box-shadow:inset 0 0 0 2px #242a2e,0 8px 16px #0004}
+.ac-grand-boulevard>span:after{content:"";position:absolute;left:3%;right:3%;top:50%;height:1px;background:repeating-linear-gradient(90deg,#d7c78c88 0 16px,transparent 16px 29px)}
+.ac-grand-boulevard i{position:absolute;width:4px;height:16px;background:#5b6163}.ac-grand-boulevard i:after{content:"";position:absolute;left:-3px;top:-5px;width:10px;height:6px;border-radius:50%;background:#e2d39e;box-shadow:0 0 10px #e2d39e66}
+.ac-grand-boulevard i:nth-child(2){left:39%;top:56%}.ac-grand-boulevard i:nth-child(3){left:47%;top:54%}.ac-grand-boulevard i:nth-child(4){left:56%;top:54%}.ac-grand-boulevard i:nth-child(5){left:64%;top:55%}
+.ac-rendered-iso.has-focus .ac-arrival-zones,.ac-rendered-iso.has-focus .ac-grand-boulevard{opacity:.55}
