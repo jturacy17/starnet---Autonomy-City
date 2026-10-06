@@ -1,0 +1,22 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path');
+const A=require('./_assert.js');
+const root=path.resolve(__dirname,'..');
+const html=fs.readFileSync(path.join(root,'frontend','index.html'),'utf8');
+const js=fs.readFileSync(path.join(root,'frontend','app','autonomy-city.js'),'utf8');
+const css=fs.readFileSync(path.join(root,'frontend','css','autonomy-city.css'),'utf8');
+const query=fs.readFileSync(path.join(root,'frontend','app','queryspine.js'),'utf8');
+
+A.ok(html.includes('css/autonomy-city.css'),'Autonomy City stylesheet is loaded');
+A.ok(html.includes('app/autonomy-city.js'),'Autonomy City module is loaded');
+A.ok(query.includes("define('command-hq'"),'Command HQ has a shared QuerySpine resource');
+A.ok(query.includes("path: '/api/enterprise/command'"),'Command HQ reads from dedicated enterprise endpoint');
+A.ok(js.includes('AUTONOMY CITY'),'first-pass launcher is present');
+A.ok(js.includes('COMMAND HQ'),'Command HQ campus is present');
+A.ok(js.includes('MEDIA CAMPUS'),'Media campus is present');
+A.ok(js.includes('R&D / INNOVATION'),'R&D campus is present');
+A.ok(js.includes('UNDER CONSTRUCTION'),'future campuses are explicitly construction-state');
+A.ok(js.includes('ENTERPRISE DATA LINK NOT ACTIVE YET'),'missing enterprise data is labeled unavailable');
+A.ok(!js.includes('Math.random('),'preview does not fabricate changing metrics');
+A.ok(css.includes('.ac-hq'),'Command HQ has dedicated visual treatment');
+A.report('autonomy-city-surface.test');
