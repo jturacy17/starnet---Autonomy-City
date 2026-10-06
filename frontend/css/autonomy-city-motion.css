@@ -22,3 +22,17 @@
 .ac-grand-boulevard i{position:absolute;width:4px;height:16px;background:#5b6163}.ac-grand-boulevard i:after{content:"";position:absolute;left:-3px;top:-5px;width:10px;height:6px;border-radius:50%;background:#e2d39e;box-shadow:0 0 10px #e2d39e66}
 .ac-grand-boulevard i:nth-child(2){left:39%;top:56%}.ac-grand-boulevard i:nth-child(3){left:47%;top:54%}.ac-grand-boulevard i:nth-child(4){left:56%;top:54%}.ac-grand-boulevard i:nth-child(5){left:64%;top:55%}
 .ac-rendered-iso.has-focus .ac-arrival-zones,.ac-rendered-iso.has-focus .ac-grand-boulevard{opacity:.55}
+
+.ac-campus-gates{position:absolute;inset:0;z-index:2;pointer-events:none}
+.ac-campus-gates .gate{position:absolute;width:76px;height:28px;border-left:5px solid #767d79;border-right:5px solid #767d79;border-top:3px solid #9b9f98;filter:drop-shadow(4px 8px 4px #0005)}
+.ac-campus-gates .gate:before,.ac-campus-gates .gate:after{content:"";position:absolute;bottom:-3px;width:9px;height:9px;background:#555d59}.ac-campus-gates .gate:before{left:-7px}.ac-campus-gates .gate:after{right:-7px}
+.ac-campus-gates .gate b{position:absolute;left:50%;top:-15px;transform:translateX(-50%);padding:1px 5px;background:#1b2223dd;border:1px solid #a8aaa255;color:#dadbd4;font:10px VT323;letter-spacing:1px;white-space:nowrap}
+.ac-campus-gates .hq{left:47%;top:52%;width:92px}.ac-campus-gates .media{left:12%;top:39%}.ac-campus-gates .rnd{right:12%;top:35%}.ac-campus-gates .commerce{left:12%;bottom:19%}.ac-campus-gates .agency{right:12%;bottom:20%}.ac-campus-gates .finance{right:30%;top:29%}
+.ac-rendered-iso[data-focus="hq"] .gate.hq,.ac-rendered-iso[data-focus="media"] .gate.media,.ac-rendered-iso[data-focus="rnd"] .gate.rnd,.ac-rendered-iso[data-focus="commerce"] .gate.commerce,.ac-rendered-iso[data-focus="agency"] .gate.agency,.ac-rendered-iso[data-focus="finance"] .gate.finance{filter:drop-shadow(4px 8px 4px #0006) drop-shadow(0 0 10px #d9c68366)}
+.ac-parallax{position:absolute;inset:0;z-index:6;pointer-events:none}
+.ac-parallax .ridge{position:absolute;bottom:-8%;height:34%;background:linear-gradient(180deg,#1c2d22cc,#0d1711);filter:drop-shadow(0 -5px 14px #0008)}
+.ac-parallax .r-a{left:-8%;width:52%;clip-path:polygon(0 100%,0 58%,18% 42%,38% 54%,55% 31%,74% 49%,100% 24%,100% 100%)}
+.ac-parallax .r-b{right:-7%;width:49%;clip-path:polygon(0 100%,0 32%,24% 51%,42% 36%,66% 58%,82% 40%,100% 61%,100% 100%)}
+.ac-parallax .near-tree{position:absolute;bottom:2%;width:24px;height:58px;border-radius:65% 65% 32% 32%;background:linear-gradient(#263f2d,#132219);filter:drop-shadow(7px 10px 5px #0008)}
+.ac-parallax .t1{left:4%;transform:scale(1.25)}.ac-parallax .t2{left:22%;transform:scale(.9)}.ac-parallax .t3{right:18%;transform:scale(1.05)}.ac-parallax .t4{right:4%;transform:scale(1.4)}
+.ac-rendered-iso.has-focus .ac-parallax{filter:brightness(.68) blur(.2px)}
