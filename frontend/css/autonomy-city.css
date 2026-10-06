@@ -124,3 +124,21 @@
 .ac-media.has-live .ac-building{filter:drop-shadow(0 0 9px #d9be7940)}
 @keyframes ac-live-pulse{0%,100%{opacity:.45;transform:scale(.8)}50%{opacity:1;transform:scale(1.35)}}
 @media(prefers-reduced-motion:reduce){.ac-campus.has-live .ac-state:after{animation:none}.ac-campus,.ac-campus:hover,#ac-campus-layer{transition:none!important}}
+
+
+/* Phase 2B ambient world polish — environmental motion, never business telemetry. */
+.ac-water{overflow:hidden}.ac-water:before,.ac-water:after{content:"";position:absolute;left:-15%;width:130%;height:2px;background:linear-gradient(90deg,transparent,#b8e1e544,transparent);transform:rotate(-5deg)}
+.ac-water:before{top:38%;animation:ac-water-drift 7s linear infinite}.ac-water:after{top:63%;animation:ac-water-drift 9s linear reverse infinite}
+.ac-green:before{content:"";position:absolute;inset:10% 8%;background:
+ radial-gradient(circle at 12% 28%,#203d29 0 5px,transparent 6px),
+ radial-gradient(circle at 30% 62%,#26472f 0 6px,transparent 7px),
+ radial-gradient(circle at 52% 25%,#284b31 0 5px,transparent 6px),
+ radial-gradient(circle at 70% 68%,#203d29 0 6px,transparent 7px),
+ radial-gradient(circle at 88% 34%,#2c5035 0 5px,transparent 6px);filter:drop-shadow(4px 7px 3px #0005)}
+.ac-rendered-iso .ac-skyline:after{content:"";position:absolute;left:18%;right:18%;top:20%;height:70%;background:radial-gradient(ellipse at center,#d7e7e514,transparent 62%);filter:blur(18px);animation:ac-ambient-breathe 8s ease-in-out infinite}
+.ac-commerce:after,.ac-agency:after,.ac-finance:after{content:"";position:absolute;left:50%;top:22%;width:62px;height:3px;background:#c6ad6c88;transform:translateX(-50%) rotateZ(-8deg) translateZ(42px);box-shadow:-27px 14px 0 -1px #9b8c6a88,24px 18px 0 -1px #9b8c6a66;pointer-events:none}
+.ac-commerce .ac-building:before,.ac-agency .ac-building:before,.ac-finance .ac-building:before{animation:ac-construction-scan 5s linear infinite}
+@keyframes ac-water-drift{from{transform:translateX(-8%) rotate(-5deg)}to{transform:translateX(8%) rotate(-5deg)}}
+@keyframes ac-ambient-breathe{0%,100%{opacity:.45;transform:scale(.98)}50%{opacity:.8;transform:scale(1.02)}}
+@keyframes ac-construction-scan{0%,100%{opacity:.55}50%{opacity:.9}}
+@media(prefers-reduced-motion:reduce){.ac-water:before,.ac-water:after,.ac-rendered-iso .ac-skyline:after,.ac-commerce .ac-building:before,.ac-agency .ac-building:before,.ac-finance .ac-building:before{animation:none}}
