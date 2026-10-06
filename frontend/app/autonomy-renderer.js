@@ -11,7 +11,7 @@ const AutonomyRenderer=(()=>{
     layer.style.setProperty('--ac-pan-x',panX+'px');
     layer.style.setProperty('--ac-pan-y',panY+'px');
   }
-  function clearFocus(){focused='';if(rootEl){rootEl.querySelectorAll('.ac-campus.is-selected').forEach(n=>n.classList.remove('is-selected'));}}
+  function clearFocus(){focused='';if(world)world.classList.remove('has-focus');if(rootEl){rootEl.querySelectorAll('.ac-campus.is-selected').forEach(n=>n.classList.remove('is-selected'));}}
   function reset(){clearFocus();zoom=1;panX=0;panY=0;apply();}
   function wheel(e){
     if(!world||!world.contains(e.target))return;
@@ -58,7 +58,7 @@ const AutonomyRenderer=(()=>{
     if(!rootEl||!layer)return;
     const presets={hq:[1.16,0,42],media:[1.18,120,44],rnd:[1.16,-118,42],commerce:[1.05,115,-58],agency:[1.05,-115,-58],finance:[1.08,-58,82]};
     const p=presets[id]||[1,0,0];
-    clearFocus();focused=id;zoom=p[0];panX=p[1];panY=p[2];
+    clearFocus();focused=id;if(world)world.classList.add('has-focus');zoom=p[0];panX=p[1];panY=p[2];
     const node=rootEl.querySelector('[data-campus="'+id+'"]');if(node)node.classList.add('is-selected');
     apply();
   }
