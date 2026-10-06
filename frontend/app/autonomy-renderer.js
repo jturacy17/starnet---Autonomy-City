@@ -31,6 +31,20 @@ const AutonomyRenderer=(()=>{
     apply();
   }
   function up(){dragging=false;if(world)world.classList.remove('is-dragging');}
+  function keydown(e){
+    if(!rootEl||rootEl.classList.contains('hidden'))return;
+    if(e.target&&/input|textarea|select/i.test(e.target.tagName||''))return;
+    let used=true;
+    if(e.key==='ArrowLeft')panX=clamp(panX+24,-220,220);
+    else if(e.key==='ArrowRight')panX=clamp(panX-24,-220,220);
+    else if(e.key==='ArrowUp')panY=clamp(panY+18,-150,150);
+    else if(e.key==='ArrowDown')panY=clamp(panY-18,-150,150);
+    else if(e.key==='+'||e.key==='=')zoom=clamp(zoom+.08,MIN,MAX);
+    else if(e.key==='-'||e.key==='_')zoom=clamp(zoom-.08,MIN,MAX);
+    else if(e.key==='0')reset();
+    else used=false;
+    if(used){e.preventDefault();apply();}
+  }
   function addControls(root){
     if(root.querySelector('.ac-camera-controls'))return;
     const c=document.createElement('div');c.className='ac-camera-controls';
@@ -105,6 +119,7 @@ const AutonomyRenderer=(()=>{
     world.addEventListener('mousedown',down);
     window.addEventListener('mousemove',move);
     window.addEventListener('mouseup',up);
+    window.addEventListener('keydown',keydown);
   }
   return {mount,reset,focus,sync,clearFocus};
 })();
