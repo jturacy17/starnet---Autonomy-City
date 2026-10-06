@@ -1,0 +1,5 @@
+/* Autonomy City ambient motion layer. Decorative only; no business state is inferred here. */
+.ac-service-traffic{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:.62}
+.ac-service-traffic i{position:absolute;width:12px;height:6px;border-radius:2px;background:#d8d1bd;box-shadow:3px 4px 5px #0006,inset -3px -2px 0 #8e8a80}
+.ac-service-traffic .v1{left:13%;top:50%}.ac-service-traffic .v2{right:13%;top:69%}.ac-service-traffic .v3{left:47%;top:17%}
+.ac-rendered-iso.has-focus .ac-service-traffic{opacity:.28}
