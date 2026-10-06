@@ -29,7 +29,6 @@ const AutonomyCity = (() => {
       +'<aside id="ac-panel" class="ac-panel"><button id="ac-panel-close" type="button" aria-label="Close detail">×</button><div id="ac-panel-body"></div></aside>';
     document.body.appendChild(root);
     panel=root.querySelector('#ac-panel');status=root.querySelector('#ac-link-status');
-    if(window.AutonomyRenderer&&AutonomyRenderer.mount)AutonomyRenderer.mount(root);
     const layer=root.querySelector('#ac-campus-layer');
     layer.append(
       campusCard('hq','COMMAND HQ','CEO · BOARD · STRATEGY','active'),
@@ -39,8 +38,9 @@ const AutonomyCity = (() => {
       campusCard('agency','AGENCY','FUTURE OPERATIONS','construction'),
       campusCard('finance','FINANCE','FUTURE OPERATIONS','construction')
     );
+    if(window.AutonomyRenderer&&AutonomyRenderer.mount)AutonomyRenderer.mount(root);
     root.querySelector('#ac-close').onclick=close;
-    root.querySelector('#ac-panel-close').onclick=()=>panel.classList.remove('open');
+    root.querySelector('#ac-panel-close').onclick=()=>{panel.classList.remove('open');if(window.AutonomyRenderer&&AutonomyRenderer.clearFocus)AutonomyRenderer.clearFocus();};
     layer.addEventListener('click',e=>{const btn=e.target.closest('[data-campus]');if(btn)openCampus(btn.dataset.campus);});
     panel.addEventListener('click',e=>{const nav=e.target.closest('[data-ac-nav]');if(nav){openCampus(nav.dataset.acNav);return;}const media=e.target.closest('[data-media-nav]');if(media)openMedia(media.dataset.mediaNav);});
   }
@@ -69,6 +69,7 @@ const AutonomyCity = (() => {
   function mediaDetail(){ return window.MediaHome&&MediaHome.render?MediaHome.render(lastCommand):'<h2>Media</h2>'; }
   function openMedia(id){
     panel.classList.add('open');
+    if(window.AutonomyRenderer&&AutonomyRenderer.focus)AutonomyRenderer.focus('media');
     let html='';
     if(!id||id==='home') html=mediaDetail();
     else if(id==='sports'&&window.MediaSports) html=MediaSports.render(lastCommand);
@@ -94,6 +95,7 @@ const AutonomyCity = (() => {
   }
   function openCampus(id){
     panel.classList.add('open');
+    if(window.AutonomyRenderer&&AutonomyRenderer.focus)AutonomyRenderer.focus(id);
     if(id==='hq'){renderBrief(lastCommand);return;}
     if(id==='media')openMedia('home');
     else if(id==='rnd')panel.querySelector('#ac-panel-body').innerHTML=rndDetail();
@@ -104,7 +106,7 @@ const AutonomyCity = (() => {
     if(unsub)return;
     try{
       unsub=QuerySpine.subscribe('command-hq',snap=>{
-        if(snap.hasData&&!snap.error){lastCommand=snap.data;status.textContent='ENTERPRISE DATA · LIVE';status.classList.add('live');}
+        if(snap.hasData&&!snap.error){lastCommand=snap.data;status.textContent='ENTERPRISE DATA · LIVE';status.classList.add('live');if(window.AutonomyRenderer&&AutonomyRenderer.sync)AutonomyRenderer.sync(lastCommand);}
         else if(snap.error){status.textContent='ENTERPRISE DATA · NOT CONNECTED';status.classList.remove('live');}
         else status.textContent='ENTERPRISE DATA · CONNECTING';
         if(panel&&panel.classList.contains('open')){
@@ -115,7 +117,7 @@ const AutonomyCity = (() => {
     }catch(_){status.textContent='ENTERPRISE DATA · NOT CONNECTED';}
   }
   function open(){buildShell();root.classList.remove('hidden');requestAnimationFrame(()=>root.classList.add('shown'));connectData();}
-  function close(){if(!root)return;root.classList.remove('shown');setTimeout(()=>root.classList.add('hidden'),180);if(unsub){unsub();unsub=null;}}
+  function close(){if(!root)return;if(window.AutonomyRenderer&&AutonomyRenderer.reset)AutonomyRenderer.reset();root.classList.remove('shown');setTimeout(()=>root.classList.add('hidden'),180);if(unsub){unsub();unsub=null;}}
   function installLauncher(){if(document.getElementById('autonomy-city-launch'))return;const btn=el('button','ac-launch','AUTONOMY CITY');btn.id='autonomy-city-launch';btn.type='button';btn.title='Open the Phase 1 Autonomy City view';btn.onclick=open;document.body.appendChild(btn);}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installLauncher);else installLauncher();
   return {open,close};
