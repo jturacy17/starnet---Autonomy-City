@@ -3,3 +3,11 @@
 .ac-service-traffic i{position:absolute;width:12px;height:6px;border-radius:2px;background:#d8d1bd;box-shadow:3px 4px 5px #0006,inset -3px -2px 0 #8e8a80}
 .ac-service-traffic .v1{left:13%;top:50%}.ac-service-traffic .v2{right:13%;top:69%}.ac-service-traffic .v3{left:47%;top:17%}
 .ac-rendered-iso.has-focus .ac-service-traffic{opacity:.28}
+
+.ac-district-stage{position:absolute;left:50%;top:18%;z-index:9;min-width:250px;padding:10px 16px;text-align:center;background:#0b1117dd;border:1px solid #8797a066;backdrop-filter:blur(10px);transform:translate(-50%,-14px);opacity:0;pointer-events:none;transition:opacity .18s ease,transform .18s ease}
+.ac-district-stage small,.ac-district-stage b,.ac-district-stage span{display:block}.ac-district-stage small{color:#81939d;letter-spacing:2px}.ac-district-stage b{font-size:25px;letter-spacing:1px;color:#eef2f4;margin-top:2px}.ac-district-stage span{color:#b3c0c7;margin-top:2px}
+.ac-district-stage.show{opacity:1;transform:translate(-50%,0)}
+.ac-rendered-iso[data-focus="hq"] .ac-civic-grounds{opacity:1;filter:brightness(1.08)}
+.ac-rendered-iso[data-focus="media"] .ac-media{filter:drop-shadow(0 25px 22px #000b) drop-shadow(0 0 18px #d0b27044)}
+.ac-rendered-iso[data-focus="rnd"] .ac-rnd{filter:drop-shadow(0 25px 22px #000b) drop-shadow(0 0 18px #9ac6cf44)}
+@media(prefers-reduced-motion:reduce){.ac-district-stage{transition:none}}
