@@ -98,3 +98,15 @@
 .ac-camera-controls{position:absolute;right:24px;bottom:24px;z-index:7;display:flex;gap:6px;padding:6px;background:#0c1218cc;border:1px solid #74828c66;backdrop-filter:blur(8px)}.ac-camera-controls button{border:1px solid #87959e;background:#151e26;color:#e6edf0;font:15px VT323;padding:7px 10px;cursor:pointer}.ac-camera-controls button:hover{background:#202c36}
 .ac-rendered-iso .ac-campus:focus-visible{outline:2px solid #d8bd76;outline-offset:8px}
 @media(max-width:900px){#ac-campus-layer{transform:translate(var(--ac-pan-x,0),var(--ac-pan-y,0)) rotateX(55deg) rotateZ(-5deg) scale(calc(var(--ac-zoom,1) * .84))}.ac-camera-controls{right:12px;bottom:12px}}
+
+
+/* Phase 2A campus identities — silhouettes communicate function without asserting business state. */
+.ac-media .ac-building{width:142px;height:92px}.ac-media .ac-building i:nth-child(1){left:22px;width:98px;height:64px;background:linear-gradient(145deg,#d7c7ad,#887a67)}.ac-media .ac-building i:nth-child(2){width:28px;height:48px;background:linear-gradient(145deg,#b7a58a,#736654)}.ac-media .ac-building i:nth-child(3){width:30px;height:54px;background:linear-gradient(145deg,#c6b597,#7a6c59)}
+.ac-media .ac-building:before{content:"MEDIA";position:absolute;left:42px;bottom:22px;width:58px;padding:2px 0;border:1px solid #efe2c355;background:#2c2925aa;color:#e6d5ad;font:11px VT323;text-align:center;letter-spacing:1px;z-index:4}
+.ac-rnd .ac-building{width:138px;height:100px}.ac-rnd .ac-building i:nth-child(1){left:25px;width:88px;height:76px;background:linear-gradient(145deg,#b7d0d6cc,#657b83cc);backdrop-filter:blur(2px)}.ac-rnd .ac-building i:nth-child(2),.ac-rnd .ac-building i:nth-child(3){height:58px;background:linear-gradient(145deg,#91adb6cc,#526971cc)}
+.ac-rnd .ac-building:before{content:"";position:absolute;left:36px;top:12px;width:65px;height:44px;background:repeating-linear-gradient(90deg,#d5edf044 0 8px,#38515a55 8px 10px);border:1px solid #cfe5e755;z-index:4}
+.ac-finance .ac-building i:nth-child(1),.ac-commerce .ac-building i:nth-child(1),.ac-agency .ac-building i:nth-child(1){background:linear-gradient(145deg,#9a9c97,#666b68)}
+.ac-finance .ac-building,.ac-commerce .ac-building,.ac-agency .ac-building{opacity:.7;filter:saturate(.55)}
+.ac-finance .ac-building:before,.ac-commerce .ac-building:before,.ac-agency .ac-building:before{content:"";position:absolute;inset:8px -8px 2px;border:1px dashed #c8b77d99;background:repeating-linear-gradient(90deg,transparent 0 20px,#c8b77d33 20px 22px);z-index:5;transform:translateZ(18px)}
+.ac-finance .ac-building:after,.ac-commerce .ac-building:after,.ac-agency .ac-building:after{box-shadow:0 0 0 1px #c8b77d44,0 8px 18px #0008}
+.ac-campus .ac-state{position:relative}.ac-campus .ac-state:before{content:"";display:inline-block;width:6px;height:6px;margin-right:5px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor;vertical-align:1px}
