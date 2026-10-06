@@ -17,7 +17,7 @@ const MediaHome = (() => {
       +card('dating-relationships','Dating / Relationships','COMING SOON')
       +card('gaming','Gaming','COMING SOON')
       +card('streamer-pop-culture','Streamer / Pop Culture','COMING SOON')
-      +'</div><div id="ac-media-kids"></div>'
+      +card('kids-a','Kids A','COMING SOON')+card('kids-b','Kids B','COMING SOON')+card('kids-c','Kids C','COMING SOON')+'</div>'
       +'<div class="ac-panel-nav"><button data-ac-nav="hq">BACK TO COMMAND HQ</button></div>';
   }
   return {render};
