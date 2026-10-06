@@ -23,4 +23,9 @@ A.ok(js.includes('ac-building-hq'),'Command HQ uses its own civic building geome
 A.ok(css.includes('.ac-building-hq .ac-dome'),'Command HQ carries a distinct capitol dome');
 A.ok(css.includes('.ac-water'),'campus layout reserves landscaped/water breathing room');
 A.ok(css.includes('.ac-hq-metrics'),'Command HQ includes an executive metric strip');
+A.ok(js.includes('ENTER MEDIA CAMPUS'),'Command HQ can drill into Media');
+A.ok(js.includes('SPORTS OPERATIONS'),'Media campus exposes operating areas');
+A.ok(js.includes('RIGHTS & MONETIZATION'),'Media campus exposes the monetization gate area');
+A.ok(js.includes('BACK TO COMMAND HQ'),'campus drilldowns preserve executive back-navigation');
+A.ok(css.includes('.ac-campus-room-grid'),'campus interiors have a dedicated drilldown layout');
 A.report('autonomy-city-surface.test');
