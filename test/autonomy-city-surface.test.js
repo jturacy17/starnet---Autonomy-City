@@ -37,6 +37,8 @@ A.ok(css.includes('.media-flow-live'),'HQ to Media flow only animates from a liv
 A.ok(css.includes('.ac-enterprise-flow'),'district connection layer is rendered');
 A.ok(css.includes('.ac-rendered-iso.has-focus'),'selected district visually separates from the wider city');
 A.ok(renderer.includes('ac-district-stage'),'renderer creates district entry staging');
+A.ok(renderer.includes('ac-arrival-zones'),'renderer creates district arrival zones');
+A.ok(renderer.includes('ac-grand-boulevard'),'renderer creates Command approach boulevard');
 A.ok(html.includes('css/autonomy-city-motion.css'),'ambient motion stylesheet is loaded');
 A.ok(css.includes('.ac-water'),'campus layout reserves landscaped/water breathing room');
 A.ok(css.includes('.ac-hq-metrics'),'Command HQ includes an executive metric strip');
