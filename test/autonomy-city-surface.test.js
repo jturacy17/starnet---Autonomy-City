@@ -9,6 +9,8 @@ const query=fs.readFileSync(path.join(root,'frontend','app','queryspine.js'),'ut
 
 A.ok(html.includes('css/autonomy-city.css'),'Autonomy City stylesheet is loaded');
 A.ok(html.includes('app/autonomy-city.js'),'Autonomy City module is loaded');
+A.ok(html.includes('app/autonomy-renderer.js'),'isometric renderer is loaded');
+A.ok(js.includes('AutonomyRenderer.mount(root)'),'city shell mounts the isometric renderer');
 A.ok(query.includes("define('command-hq'"),'Command HQ has a shared QuerySpine resource');
 A.ok(query.includes("path: '/api/enterprise/command'"),'Command HQ reads from dedicated enterprise endpoint');
 A.ok(js.includes('AUTONOMY CITY'),'first-pass launcher is present');
@@ -21,6 +23,8 @@ A.ok(!js.includes('Math.random('),'preview does not fabricate changing metrics')
 A.ok(css.includes('.ac-hq'),'Command HQ has dedicated visual treatment');
 A.ok(js.includes('ac-building-hq'),'Command HQ uses its own civic building geometry');
 A.ok(css.includes('.ac-building-hq .ac-dome'),'Command HQ carries a distinct capitol dome');
+A.ok(css.includes('.ac-rendered-iso'),'city has isometric render mode');
+A.ok(css.includes('.ac-camera-controls'),'isometric camera controls are styled');
 A.ok(css.includes('.ac-water'),'campus layout reserves landscaped/water breathing room');
 A.ok(css.includes('.ac-hq-metrics'),'Command HQ includes an executive metric strip');
 A.ok(js.includes('ENTER MEDIA CAMPUS'),'Command HQ can drill into Media');
