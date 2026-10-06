@@ -9,6 +9,7 @@ const query=fs.readFileSync(path.join(root,'frontend','app','queryspine.js'),'ut
 const mediaHome=fs.readFileSync(path.join(root,'frontend','app','media-home.js'),'utf8');
 const mediaSports=fs.readFileSync(path.join(root,'frontend','app','media-sports.js'),'utf8');
 const renderer=fs.readFileSync(path.join(root,'frontend','app','autonomy-renderer.js'),'utf8');
+const motion=fs.readFileSync(path.join(root,'frontend','css','autonomy-city-motion.css'),'utf8');
 
 A.ok(html.includes('css/autonomy-city.css'),'Autonomy City stylesheet is loaded');
 A.ok(html.includes('app/autonomy-city.js'),'Autonomy City module is loaded');
@@ -41,7 +42,12 @@ A.ok(renderer.includes('ac-arrival-zones'),'renderer creates district arrival zo
 A.ok(renderer.includes('ac-grand-boulevard'),'renderer creates Command approach boulevard');
 A.ok(renderer.includes('ac-campus-gates'),'renderer creates labeled campus gateways');
 A.ok(renderer.includes('ac-parallax'),'renderer creates foreground/background parallax scenery');
+A.ok(renderer.includes('function keydown'),'renderer supports keyboard camera controls');
+A.ok(renderer.includes('ac-horizon-layer'),'renderer creates a distant horizon layer');
 A.ok(html.includes('css/autonomy-city-motion.css'),'ambient motion stylesheet is loaded');
+A.ok(motion.includes('.ac-campus-gates'),'campus gateway styling is loaded');
+A.ok(motion.includes('.ac-horizon-layer'),'horizon styling is loaded');
+A.ok(motion.includes('prefers-reduced-motion'),'motion layer respects reduced-motion preference');
 A.ok(css.includes('.ac-water'),'campus layout reserves landscaped/water breathing room');
 A.ok(css.includes('.ac-road:after'),'roads include hierarchy markings');
 A.ok(css.includes('.ac-hq-metrics'),'Command HQ includes an executive metric strip');
