@@ -38,6 +38,15 @@ const AutonomyRenderer=(()=>{
     root.appendChild(c);
     c.addEventListener('click',e=>{const b=e.target.closest('[data-cam]');if(!b)return;const a=b.dataset.cam;if(a==='in')zoom=clamp(zoom+.08,MIN,MAX);else if(a==='out')zoom=clamp(zoom-.08,MIN,MAX);else reset();apply();});
   }
+  function addWorldLayers(root){
+    if(!world||world.querySelector('.ac-enterprise-flow'))return;
+    const flow=document.createElement('div');flow.className='ac-enterprise-flow';flow.setAttribute('aria-hidden','true');
+    flow.innerHTML='<span class="ac-flow-line"></span><i class="ac-flow-pulse p1"></i><i class="ac-flow-pulse p2"></i><i class="ac-flow-node n-media"></i><i class="ac-flow-node n-hq"></i>';
+    world.appendChild(flow);
+    const depth=document.createElement('div');depth.className='ac-city-depth';depth.setAttribute('aria-hidden','true');
+    depth.innerHTML='<i></i><i></i><i></i><i></i><i></i><i></i>';
+    world.appendChild(depth);
+  }
   function decorateBuildings(root){
     root.querySelectorAll('.ac-campus').forEach(c=>{
       if(c.querySelector('.ac-building-shadow'))return;
@@ -60,13 +69,14 @@ const AutonomyRenderer=(()=>{
     const opp=data&&data.portfolio&&data.portfolio.opportunities;const exp=data&&data.portfolio&&data.portfolio.experiments;
     const mediaLive=Number(opp&&opp.total||0)>0||Number(exp&&exp.total||0)>0;
     if(media)media.classList.toggle('has-live',mediaLive);
+    if(world)world.classList.toggle('media-flow-live',mediaLive);
   }
   function mount(root){
     rootEl=root;world=root&&root.querySelector('.ac-world');
     layer=root&&root.querySelector('#ac-campus-layer');
     if(!world||!layer)return;
     world.classList.add('ac-rendered-iso');
-    decorateBuildings(root);addControls(root);apply();
+    addWorldLayers(root);decorateBuildings(root);addControls(root);apply();
     world.addEventListener('wheel',wheel,{passive:false});
     world.addEventListener('mousedown',down);
     window.addEventListener('mousemove',move);
