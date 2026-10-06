@@ -19,4 +19,8 @@ A.ok(js.includes('UNDER CONSTRUCTION'),'future campuses are explicitly construct
 A.ok(js.includes('ENTERPRISE DATA LINK NOT ACTIVE YET'),'missing enterprise data is labeled unavailable');
 A.ok(!js.includes('Math.random('),'preview does not fabricate changing metrics');
 A.ok(css.includes('.ac-hq'),'Command HQ has dedicated visual treatment');
+A.ok(js.includes('ac-building-hq'),'Command HQ uses its own civic building geometry');
+A.ok(css.includes('.ac-building-hq .ac-dome'),'Command HQ carries a distinct capitol dome');
+A.ok(css.includes('.ac-water'),'campus layout reserves landscaped/water breathing room');
+A.ok(css.includes('.ac-hq-metrics'),'Command HQ includes an executive metric strip');
 A.report('autonomy-city-surface.test');
