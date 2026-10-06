@@ -57,4 +57,5 @@ const AutonomyRenderer=(()=>{
   }
   return {mount,reset};
 })();
+if(typeof window!=='undefined')window.AutonomyRenderer=AutonomyRenderer;
 if(typeof module!=='undefined'&&module.exports)module.exports={AutonomyRenderer};
