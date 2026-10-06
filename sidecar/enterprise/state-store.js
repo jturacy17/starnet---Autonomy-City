@@ -25,6 +25,7 @@ function defaults() {
         }
       }
     },
+    opportunities: [],
     decisions: [],
     recommendations: [],
     experiments: [],
@@ -52,6 +53,20 @@ function normalizeCorrection(raw) {
     id: clip(x.id,120), reason: clip(x.reason,280), ownerManagerId: clip(x.ownerManagerId,120),
     status: ['open','monitoring','resolved'].includes(x.status) ? x.status : 'open',
     openedAt: Math.max(0,num(x.openedAt,0)), resolvedAt: Math.max(0,num(x.resolvedAt,0))
+  };
+}
+function normalizeOpportunity(raw) {
+  const x=raw&&typeof raw==='object'?raw:{};
+  const stages=['source_discovery','content_understanding','opportunity_scoring','rights_compliance','monetization_gate','management_review','experiment','ceo_approval','controlled_production','quality_control','measurement','learning','terminal'];
+  return {
+    id:clip(x.id,120), title:clip(x.title,240), stage:stages.includes(x.stage)?x.stage:'source_discovery',
+    status:['active','blocked','approved','rejected','paused','completed'].includes(x.status)?x.status:'active',
+    workId:clip(x.workId,120), currentAgentId:clip(x.currentAgentId,120), runId:clip(x.runId,120),
+    monetizationDecision:['MONETIZE','REVIEW','REJECT'].includes(x.monetizationDecision)?x.monetizationDecision:'',
+    managementReview:['approved','denied','pending'].includes(x.managementReview)?x.managementReview:'pending',
+    ceoApprovalRequired:x.ceoApprovalRequired===true, ceoDecision:['approved','denied','modified','more_info',''].includes(x.ceoDecision)?x.ceoDecision:'',
+    publishingAuthorized:false,
+    createdAt:Math.max(0,num(x.createdAt,0)), updatedAt:Math.max(0,num(x.updatedAt,0))
   };
 }
 function normalizeDecision(raw) {
@@ -106,6 +121,7 @@ function normalize(raw) {
     costUsd:Math.max(0,num(sports.metrics.costUsd,0)),
     humanMinutes:Math.max(0,num(sports.metrics.humanMinutes,0))
   }:{};
+  base.opportunities=arr(x.opportunities,2000).map(normalizeOpportunity).filter(v=>v.id&&v.title);
   base.decisions=arr(x.decisions,2000).map(normalizeDecision).filter(v=>v.id&&v.title);
   base.recommendations=arr(x.recommendations,2000).map(normalizeRecommendation).filter(v=>v.id&&v.title);
   base.experiments=arr(x.experiments,2000).map(normalizeExperiment).filter(v=>v.id);
