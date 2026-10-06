@@ -29,6 +29,7 @@ const AutonomyCity = (() => {
       +'<aside id="ac-panel" class="ac-panel"><button id="ac-panel-close" type="button" aria-label="Close detail">×</button><div id="ac-panel-body"></div></aside>';
     document.body.appendChild(root);
     panel=root.querySelector('#ac-panel');status=root.querySelector('#ac-link-status');
+    if(window.AutonomyRenderer&&AutonomyRenderer.mount)AutonomyRenderer.mount(root);
     const layer=root.querySelector('#ac-campus-layer');
     layer.append(
       campusCard('hq','COMMAND HQ','CEO · BOARD · STRATEGY','active'),
