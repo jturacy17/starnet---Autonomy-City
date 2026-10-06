@@ -38,9 +38,9 @@ const AutonomyCity = (() => {
       campusCard('agency','AGENCY','FUTURE OPERATIONS','construction'),
       campusCard('finance','FINANCE','FUTURE OPERATIONS','construction')
     );
-    if(window.AutonomyRenderer&&AutonomyRenderer.mount)AutonomyRenderer.mount(root);
+    if(typeof AutonomyRenderer!=='undefined'&&AutonomyRenderer.mount)AutonomyRenderer.mount(root);
     root.querySelector('#ac-close').onclick=close;
-    root.querySelector('#ac-panel-close').onclick=()=>{panel.classList.remove('open');if(window.AutonomyRenderer&&AutonomyRenderer.clearFocus)AutonomyRenderer.clearFocus();};
+    root.querySelector('#ac-panel-close').onclick=()=>{panel.classList.remove('open');if(typeof AutonomyRenderer!=='undefined'&&AutonomyRenderer.clearFocus)AutonomyRenderer.clearFocus();};
     layer.addEventListener('click',e=>{const btn=e.target.closest('[data-campus]');if(btn)openCampus(btn.dataset.campus);});
     panel.addEventListener('click',e=>{const nav=e.target.closest('[data-ac-nav]');if(nav){openCampus(nav.dataset.acNav);return;}const media=e.target.closest('[data-media-nav]');if(media)openMedia(media.dataset.mediaNav);});
   }
@@ -66,18 +66,18 @@ const AutonomyCity = (() => {
       +'<section><h3>INFORM <i>'+Number(inform.count||0)+'</i></h3>'+cards(inform.items||[],'inform')+'</section></div>'
       +'<div class="ac-panel-nav"><button data-ac-nav="media">ENTER MEDIA CAMPUS</button><button data-ac-nav="rnd">ENTER R&D</button></div>';
   }
-  function mediaDetail(){ return window.MediaHome&&MediaHome.render?MediaHome.render(lastCommand):'<h2>Media</h2>'; }
+  function mediaDetail(){ return typeof MediaHome!=='undefined'&&MediaHome.render?MediaHome.render(lastCommand):'<h2>Media</h2>'; }
   function openMedia(id){
     panel.classList.add('open');
-    if(window.AutonomyRenderer&&AutonomyRenderer.focus)AutonomyRenderer.focus('media');
+    if(typeof AutonomyRenderer!=='undefined'&&AutonomyRenderer.focus)AutonomyRenderer.focus('media');
     let html='';
     if(!id||id==='home') html=mediaDetail();
-    else if(id==='sports'&&window.MediaSports) html=MediaSports.render(lastCommand);
-    else if(id==='management'&&window.MediaManagement) html=MediaManagement.render(lastCommand);
-    else if(id==='rights'&&window.MediaRights) html=MediaRights.render(lastCommand);
-    else if(id==='performance'&&window.MediaPerformance) html=MediaPerformance.render(lastCommand);
-    else if(id==='workforce'&&window.MediaWorkforce) html=MediaWorkforce.render(lastCommand);
-    else if(window.MediaFuture) html=MediaFuture.render(id);
+    else if(id==='sports'&&typeof MediaSports!=='undefined') html=MediaSports.render(lastCommand);
+    else if(id==='management'&&typeof MediaManagement!=='undefined') html=MediaManagement.render(lastCommand);
+    else if(id==='rights'&&typeof MediaRights!=='undefined') html=MediaRights.render(lastCommand);
+    else if(id==='performance'&&typeof MediaPerformance!=='undefined') html=MediaPerformance.render(lastCommand);
+    else if(id==='workforce'&&typeof MediaWorkforce!=='undefined') html=MediaWorkforce.render(lastCommand);
+    else if(typeof MediaFuture!=='undefined') html=MediaFuture.render(id);
     else html='<h2>Media</h2>';
     panel.querySelector('#ac-panel-body').innerHTML=html;
   }
@@ -95,18 +95,18 @@ const AutonomyCity = (() => {
   }
   function openCampus(id){
     panel.classList.add('open');
-    if(window.AutonomyRenderer&&AutonomyRenderer.focus)AutonomyRenderer.focus(id);
+    if(typeof AutonomyRenderer!=='undefined'&&AutonomyRenderer.focus)AutonomyRenderer.focus(id);
     if(id==='hq'){renderBrief(lastCommand);return;}
     if(id==='media')openMedia('home');
     else if(id==='rnd')panel.querySelector('#ac-panel-body').innerHTML=rndDetail();
     else panel.querySelector('#ac-panel-body').innerHTML=constructionDetail(id);
   }
   function connectData(){
-    if(!window.QuerySpine||!QuerySpine.subscribe){status.textContent='ENTERPRISE DATA · MODULE UNAVAILABLE';return;}
+    if(typeof QuerySpine==='undefined'||!QuerySpine.subscribe){status.textContent='ENTERPRISE DATA · MODULE UNAVAILABLE';return;}
     if(unsub)return;
     try{
       unsub=QuerySpine.subscribe('command-hq',snap=>{
-        if(snap.hasData&&!snap.error){lastCommand=snap.data;status.textContent='ENTERPRISE DATA · LIVE';status.classList.add('live');if(window.AutonomyRenderer&&AutonomyRenderer.sync)AutonomyRenderer.sync(lastCommand);}
+        if(snap.hasData&&!snap.error){lastCommand=snap.data;status.textContent='ENTERPRISE DATA · LIVE';status.classList.add('live');if(typeof AutonomyRenderer!=='undefined'&&AutonomyRenderer.sync)AutonomyRenderer.sync(lastCommand);}
         else if(snap.error){status.textContent='ENTERPRISE DATA · NOT CONNECTED';status.classList.remove('live');}
         else status.textContent='ENTERPRISE DATA · CONNECTING';
         if(panel&&panel.classList.contains('open')){
@@ -117,7 +117,7 @@ const AutonomyCity = (() => {
     }catch(_){status.textContent='ENTERPRISE DATA · NOT CONNECTED';}
   }
   function open(){buildShell();root.classList.remove('hidden');requestAnimationFrame(()=>root.classList.add('shown'));connectData();}
-  function close(){if(!root)return;if(window.AutonomyRenderer&&AutonomyRenderer.reset)AutonomyRenderer.reset();root.classList.remove('shown');setTimeout(()=>root.classList.add('hidden'),180);if(unsub){unsub();unsub=null;}}
+  function close(){if(!root)return;if(typeof AutonomyRenderer!=='undefined'&&AutonomyRenderer.reset)AutonomyRenderer.reset();root.classList.remove('shown');setTimeout(()=>root.classList.add('hidden'),180);if(unsub){unsub();unsub=null;}}
   function installLauncher(){if(document.getElementById('autonomy-city-launch'))return;const btn=el('button','ac-launch','AUTONOMY CITY');btn.id='autonomy-city-launch';btn.type='button';btn.title='Open Autonomy City';btn.onclick=open;document.body.appendChild(btn);}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installLauncher);else installLauncher();
   return {open,close};

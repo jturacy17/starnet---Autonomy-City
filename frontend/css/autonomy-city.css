@@ -248,3 +248,19 @@
 .ac-top{box-shadow:0 8px 24px #0005}
 .ac-top strong{text-shadow:0 2px 8px #0008}
 .ac-launch{border-radius:2px;box-shadow:0 8px 24px #0009,0 0 16px #d8b75e18}
+
+/* Keep peripheral campuses inside the initial desktop camera. */
+@media(min-width:801px){#ac-campus-layer{inset:4% 7% 8%}}
+/* Narrow screens use a readable campus map with the same district controls. */
+@media(max-width:800px){
+ .ac-world{overflow-y:auto;perspective:none}
+ #ac-campus-layer{position:relative;inset:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 8px;padding:28px 12px 120px;transform:none!important;box-sizing:border-box}
+ .ac-rendered-iso .ac-campus,.ac-rendered-iso .ac-campus:hover{position:relative;inset:auto;display:block;width:100%;height:180px;transform:none}
+ .ac-rendered-iso .ac-campus b,.ac-rendered-iso .ac-campus small,.ac-rendered-iso .ac-campus em{transform:none}
+ .ac-rendered-iso .ac-campus .ac-building{transform:rotateX(20deg) rotateZ(-5deg);margin-bottom:18px}
+ .ac-finance{display:block}
+ .ac-legend,.ac-parallax,.ac-campus-gates,.ac-arrival-zones,.ac-mall,.ac-plaza,.ac-road,.ac-civic-grounds,.ac-enterprise-flow,.ac-grand-boulevard{display:none}
+ .ac-camera-controls{display:none}
+ .ac-panel{position:fixed;top:73px;bottom:0;width:100%;padding:60px 18px 24px;box-sizing:border-box}
+ .ac-top strong{font-size:21px}.ac-top span{font-size:12px}.ac-top-actions{gap:0}.ac-top button{font-size:13px;padding:7px}
+}
