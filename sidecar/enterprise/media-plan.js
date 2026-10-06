@@ -20,12 +20,13 @@ function buildMediaPlan() {
   return {id:workerId,name:role.name,role:role.id,scope:role.scope,managerId:manager.id,status:'planned'};
  })}));
  return {status:'awaiting_activation',workerCount:27,managerCount:4,managers,categories,
+  editingEngine:{name:'FFmpeg',status:'worker_implemented',subscriptionRequired:false,automaticHighlightSelection:false},
   discovery:{intervalHours:72,status:'not_scheduled'},
   contentPolicy:{editing:'Free editing tools only; no paid editing service.',eligibility:'Clip only owned or licensed sources with documented commercial reuse rights and verified platform monetization eligibility. Unknown eligibility blocks production.',economics:'Estimate model, hosting and processing costs before production. Revenue and positive profit are not guaranteed.'},
   workflow:['Trend discovery','Source rights verification','Clip selection & editing','Three platform exports','Manager quality review','Publish through connected accounts','Measure & improve'],
   platforms:['YouTube','TikTok','Instagram'].map(name=>({name,status:'not_connected'})),
   requirements:['Register the 31 planned positions with the execution harness and configure model budgets.',
-   'Implement and verify video discovery, editing and platform publishing adapters.',
+   'Connect the tested FFmpeg worker to the job queue; implement AI highlight selection, captions, discovery and platform publishing adapters.',
    'Connect platform accounts using developer OAuth applications; passwords are never entered in chat.',
    'Confirm owned or licensed source videos before production and publication.',
    'Use durable storage and an always-on scheduler for reliable 72-hour discovery.'],

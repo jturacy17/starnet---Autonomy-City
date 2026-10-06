@@ -17,3 +17,32 @@ No OAuth flow, clipping adapter, recurring discovery job or publishing adapter i
 ## Viewing this change
 
 Deploy the latest commit on `phase-1/enterprise-control` in Render, then refresh the existing public URL. Open Autonomy City → Media → Teams & Workflow or Manager Office. Each category opens its three planned positions. The original Sports pilot remains reachable from Existing Sports Pilot.
+
+## Free editing engine (FFmpeg)
+
+OpusClip is not required. `sidecar/media/clip-worker.js` renders local source files using FFmpeg and FFprobe, with one encoder thread to reduce CPU contention. It produces 720×1280 MP4 exports for the three platforms, preserving the full frame with padding. It does not infer highlight timestamps, burn captions, verify rights or monetization automatically, upload source videos, schedule or publish. Each job requires explicit documented commercial reuse rights and verified monetization eligibility; these assertions must come from a reviewed source, not an agent guessing. No revenue guarantee is implied.
+
+Run one reviewed job:
+
+```
+node scripts/render-media-clip.js /absolute/path/to/job.json
+```
+
+Example (replace paths and evidence with real reviewed information):
+
+```json
+{
+  "input": "/data/source.mp4",
+  "outputDir": "/data/jobs/unique-job-id",
+  "startSeconds": 120,
+  "durationSeconds": 45,
+  "rights": {"status": "owned", "evidence": "Recorded and owned by this business"},
+  "monetizationEligible": true
+}
+```
+
+The output directory must not already exist. Failed jobs leave a failure record and must be reviewed before rerunning under a new ID. The current worker supports up to 180 seconds per clip; 30–60 seconds is the typical target. All three outputs currently contain the same vertical video; platform-specific metadata and captions are future work. Temporary exports are not durable on Render Free.
+
+`Dockerfile.render` provides an optional Docker runtime with FFmpeg installed. The existing Render Node service is unchanged: pushing this file does not switch its runtime. A Render Docker service must explicitly select this Dockerfile and receive the hosted authentication configuration through secure environment variables. Validate the image and hosted editing on Render before activation; the image has not been built in this workspace. Do not delete the current service before validating a replacement. Its public hostname may differ.
+
+The worker was validated locally with a generated video, three probed exports, out-of-range selection rejection, missing rights rejection and overwrite prevention. This is editing-engine validation, not an end-to-end publishing test. Render Free's 512 MB memory, sleep behavior and ephemeral disk remain constraints. Ninety source videos per week and unattended morning posting are not established as feasible on this tier. Queue integration, durable storage, an appropriate scheduler, AI selection/transcription and official platform connections remain required.

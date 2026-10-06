@@ -9,6 +9,7 @@ const MediaWorkforce=(()=>{
    +categories.map(c=>'<h3 class="ac-section-title">'+esc(c.name)+'</h3><div class="ac-simple-grid">'+c.workers.map(w=>'<article><b>'+esc(w.name)+'</b><p>'+esc(w.scope)+'</p><span>Reports to '+esc(p.managers.find(m=>m.id===w.managerId).name)+' · Planned</span></article>').join('')+'</div>').join('')
    +'<h3 class="ac-section-title">END-TO-END WORKFLOW</h3><ol>'+p.workflow.map(s=>'<li>'+esc(s)+'</li>').join('')+'</ol>'
    +'<p>Trend discovery is planned every 72 hours. Each category shares findings across its three workers; managers can coordinate reassignment and review.</p>'
+   +'<p>Editing engine: FFmpeg · No OpusClip subscription. Worker implemented; upload controls, AI highlight selection, captions and publishing are not connected yet.</p>'
    +'<h3 class="ac-section-title">CONTENT & COST POLICY</h3><p>'+esc(p.contentPolicy.editing)+'</p><p>'+esc(p.contentPolicy.eligibility)+'</p><p>'+esc(p.contentPolicy.economics)+'</p>'
    +'<h3 class="ac-section-title">REQUIRED TO ACTIVATE</h3><ul>'+p.requirements.map(s=>'<li>'+esc(s)+'</li>').join('')+'</ul>'
    +'<div class="ac-panel-nav"><button data-media-nav="management">MANAGER OFFICE</button><button data-media-nav="home">MEDIA CAMPUS</button></div>';
