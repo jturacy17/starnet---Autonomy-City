@@ -92,7 +92,8 @@ const { makeGrowthRatings, deriveRating: deriveGrowthRating } = require('./growt
 const { makeAutonomyLedger } = require('./autonomy-ledger.js');   // NS-0: durable append-only ledger of autonomy decisions
 const { makeArtifactCollector } = require('./artifacts.js');   // work-visibility: per-run "what did it produce" ledger
 const { makeCompletionEvidence } = require('./completion-evidence.js'); // structured effect proof; never guesses task completion
-const { makeRunExecutionState, toolBytesCapFor } = require('./run-execution-state.js'); // one lifecycle for per-run latches/counters/artifacts
+const { makeRunExecutionState, toolBytesCapFor } = require('./run-execution-state.js');
+const EnterpriseRoutes = require('./enterprise/routes.js');   // StarNetOS Phase 1: read-only Command HQ enterprise projection // one lifecycle for per-run latches/counters/artifacts
 const { _internals: ProgressGuardInternals } = require('./tool-progress-guard.js');   // trackable(): which calls the evidence-progress guard owns (loop breaker hand-off)
 const { recoverToolResult } = require('./tool-recovery.js'); // bounded retry for host-trusted transient reads only
 const transcriptStoreModule = require('./transcriptstore.js');
@@ -10626,7 +10627,13 @@ async function handleRemoteRevoke(req, res) {
   respondJson(res, 200, remoteSnapshot());
 }
 
+const enterpriseRoutes = EnterpriseRoutes.makeEnterpriseRoutes({
+  fs, path, workspaces: WORKSPACES, writeDurable: writeFileDurable,
+  now: () => Date.now(), onIssue: (issue) => console.warn('[enterprise] state issue:', issue && issue.message ? issue.message : issue)
+});
+
 const ROUTES = [
+  ...enterpriseRoutes.routes,
   { m: 'GET', qsplit: '/api/groups', h: handleGroups },
   { m: 'POST', exact: '/api/groups', h: handleGroups },
   { m: 'POST', exact: '/api/update/prepare', h: handleUpdatePrepare },

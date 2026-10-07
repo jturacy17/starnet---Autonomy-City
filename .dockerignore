@@ -1,0 +1,9 @@
+.git
+node_modules
+.cache
+.npm-cache
+.node-gyp
+.env
+.env.*
+*.log
+artifacts

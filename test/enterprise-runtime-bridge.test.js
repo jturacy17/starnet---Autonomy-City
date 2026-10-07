@@ -1,0 +1,33 @@
+'use strict';
+const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
+const A=require('./_assert.js');
+const {makeEnterpriseStateStore}=require('../sidecar/enterprise/state-store.js');
+const {makeEnterpriseRuntimeBridge}=require('../sidecar/enterprise/runtime-bridge.js');
+const {makeSportsWorkflow}=require('../sidecar/enterprise/sports-workflow.js');
+const root=fs.mkdtempSync(path.join(os.tmpdir(),'starnet-enterprise-runtime-'));
+try{
+ let t=1000;const clock={now:()=>t++};
+ const store=makeEnterpriseStateStore({fs,path,workspaces:root});
+ store.update(s=>{s.businesses.media.teams.sports.work.push({id:'work-1',title:'Analyze sports clip',ownerAgentId:'sports-analyst',state:'queued',priority:'normal',dueAt:2000,createdAt:900,completedAt:0,blockedReason:'',quality:0,costUsd:0,humanMinutes:0});return s;});
+ const flow=makeSportsWorkflow(store,clock);
+ flow.create({id:'opp-1',title:'Candidate highlight',workId:'work-1'});
+ const bridge=makeEnterpriseRuntimeBridge(store,clock);
+ bridge.bindRun({runId:'run-1',workId:'work-1',opportunityId:'opp-1'});
+ A.ok(bridge.handle('agent.run.start',{agentId:'sports-analyst',runId:'run-1',trigger:'directive',model:'x'}).handled,'bound runtime event is handled');
+ let s=store.read().value;A.eq(s.businesses.media.teams.sports.work[0].state,'active','run start makes work active');
+ bridge.handle('agent.cost',{agentId:'sports-analyst',runId:'run-1',usd:0.42,reconciled:true});
+ bridge.handle('agent.cost',{agentId:'sports-analyst',runId:'run-1',usd:0.42,reconciled:true});
+ s=store.read().value;A.eq(s.financialEntries.length,1,'reconciled model cost is idempotent per run');
+ bridge.handle('agent.run.end',{agentId:'sports-analyst',runId:'run-1',reason:'done',turns:3,usd:0.42});
+ s=store.read().value;A.eq(s.businesses.media.teams.sports.work[0].state,'review','successful run awaits review rather than self-approving work');
+ A.eq(s.opportunities[0].publishingAuthorized,false,'runtime completion never authorizes publishing');
+ flow.evaluateMonetization('opp-1',{ownership:'verified',licensing:'unknown',commercialRights:'verified',transformationRights:'verified',platformEligibility:'verified',monetizationMechanism:'platform revenue share'});
+ s=store.read().value;A.eq(s.opportunities[0].status,'blocked','unknown rights block the opportunity');
+ flow.evaluateMonetization('opp-1',{ownership:'verified',licensing:'verified',commercialRights:'verified',transformationRights:'verified',platformEligibility:'verified',copyrightRisk:'low',monetizationMechanism:'platform revenue share'});
+ flow.managerReview('opp-1','approved');
+ s=store.read().value;A.eq(s.opportunities[0].monetizationDecision,'MONETIZE','verified rights can clear monetization gate');
+ A.ok(s.audit.some(a=>a.action==='runtime.run.completed'),'runtime completion is audited');
+ A.ok(s.audit.some(a=>a.action==='sports.management.approved'),'manager approval is audited separately from agent execution');
+ A.ok(!bridge.handle('agent.run.start',{agentId:'other',runId:'unbound'}).handled,'unbound runtime work cannot mutate enterprise state');
+}finally{fs.rmSync(root,{recursive:true,force:true});}
+A.report('enterprise-runtime-bridge.test');

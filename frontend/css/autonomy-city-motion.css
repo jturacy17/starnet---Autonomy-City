@@ -1,0 +1,6 @@
+/* Restrained interactions for the overhead campus map. */
+.ac-district-stage{position:absolute;left:50%;top:12px;z-index:5;padding:9px 18px;border:1px solid #9cb78a55;border-radius:8px;background:#132d26ed;color:#dce5c8;text-align:center;pointer-events:none;opacity:0;transform:translate(-50%,-8px);transition:opacity .2s,transform .2s}
+.ac-district-stage small,.ac-district-stage span{display:none}.ac-district-stage b{font:500 10px system-ui,sans-serif;letter-spacing:1.5px}.ac-district-stage.show{opacity:1;transform:translate(-50%,0)}
+.ac-campus:hover .ac-building{filter:drop-shadow(4px 9px 3px #081e1966) brightness(1.08)}
+@media(max-width:800px){.ac-district-stage{display:none}}
+@media(prefers-reduced-motion:reduce){.autonomy-city,.ac-campus,.ac-panel,.ac-building,#ac-campus-layer,.ac-district-stage{transition:none!important}}

@@ -1,0 +1,35 @@
+'use strict';
+const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
+const A=require('./_assert.js');
+const {makeEnterpriseStateStore}=require('../sidecar/enterprise/state-store.js');
+const {makeEnterpriseOperations}=require('../sidecar/enterprise/operations.js');
+const root=fs.mkdtempSync(path.join(os.tmpdir(),'starnet-enterprise-ops-'));
+try{
+ let now=100;
+ const store=makeEnterpriseStateStore({fs,path,workspaces:root});
+ const ops=makeEnterpriseOperations(store,{now:()=>now++});
+ ops.managerCorrect({id:'corr-1',managerId:'media-manager',reason:'Rights review is blocked'});
+ let state=store.read().value;
+ A.eq(state.businesses.media.teams.sports.correctiveActions.length,1,'manager can open corrective action for owned team');
+ A.ok(state.audit.some(a=>a.action==='manager.corrective_action.opened'),'manager correction is audited');
+ A.throws(()=>ops.managerCorrect({id:'bad',managerId:'not-the-manager',reason:'x'}),'wrong manager cannot mutate team accountability');
+ ops.boardRecommend({id:'rec-1',title:'Fund controlled test',recommendation:'Approve a limited experiment',evidence:['Rights gate passed'],disagreement:['Capital member prefers smaller test'],confidence:78,upside:'Validate monetization',downside:'Small test cost',requiresCeoDecision:true});
+ ops.requestCeoDecision({id:'dec-1',type:'capital',title:'Approve $180 sports experiment',requestedBy:'board',amountUsd:180});
+ state=store.read().value;
+ A.eq(state.recommendations[0].source,'board','board recommendation is persisted');
+ A.eq(state.decisions[0].status,'pending','CEO decision queue receives pending item');
+ ops.decide({id:'dec-1',status:'approved',rationale:'Controlled test within approved risk'});
+ state=store.read().value;
+ A.eq(state.decisions[0].decidedBy,'ceo','CEO is durable decision authority');
+ A.eq(state.decisions[0].status,'approved','CEO verdict persists');
+ A.throws(()=>ops.decide({id:'dec-1',status:'denied'}),'closed CEO decision cannot be silently rewritten');
+ ops.recordFinancial({id:'fin-1',businessId:'media',experimentId:'e1',kind:'model_cost',usd:2.25,actorId:'system'});
+ ops.recordHumanTime({id:'time-1',businessId:'media',experimentId:'e1',kind:'ceo_review',minutes:7,actorId:'ceo'});
+ state=store.read().value;
+ A.eq(state.financialEntries[0].usd,2.25,'financial attribution is persisted');
+ A.eq(state.humanTimeEntries[0].minutes,7,'human time attribution is persisted');
+ A.ok(state.audit.filter(a=>a.action.startsWith('ceo.decision.')).length>=2,'request and verdict are both auditable');
+ ops.resolveCorrection({id:'corr-1',managerId:'media-manager',detail:'Rights uncertainty resolved'});
+ A.eq(store.read().value.businesses.media.teams.sports.correctiveActions[0].status,'resolved','manager closes its own corrective action');
+}finally{fs.rmSync(root,{recursive:true,force:true});}
+A.report('enterprise-operations.test');

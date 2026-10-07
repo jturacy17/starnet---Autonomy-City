@@ -53,6 +53,17 @@ test/durable-write.mode.test.js
 test/secret-file-modes.test.js
 test/child-env.test.js
 test/domain-store.test.js
+test/enterprise-model.test.js
+test/enterprise-state.test.js
+test/enterprise-operations.test.js
+test/enterprise-runtime-bridge.test.js
+test/enterprise-event-sink.test.js
+test/enterprise-sports-runner.test.js
+test/enterprise-manager-board-loop.test.js
+test/enterprise-command-summary.test.js
+test/autonomy-city-surface.test.js
+test/enterprise-routes.test.js
+test/enterprise-index-wiring.test.js
 test/provider-runtime.test.js
 test/run-execution-state.test.js
 test/tool-progress-guard.test.js

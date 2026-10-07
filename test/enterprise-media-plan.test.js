@@ -1,0 +1,26 @@
+'use strict';
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const {buildMediaPlan}=require('../sidecar/enterprise/media-plan');
+const {MediaHome}=require('../frontend/app/media-home');
+const {MediaWorkforce}=require('../frontend/app/media-workforce');
+test('category teams have balanced accountable ownership without claiming active execution',()=>{
+ const p=buildMediaPlan();
+ assert.equal(p.categories.length,9);
+ const workers=p.categories.flatMap(c=>c.workers);
+ assert.equal(new Set(workers.map(w=>w.id)).size,27);
+ assert.deepEqual(p.managers.map(m=>m.workerIds.length),[7,7,7,6]);
+ for(const c of p.categories) assert.deepEqual(c.workers.map(w=>w.role),['discovery','production','distribution']);
+ for(const w of workers) assert.ok(p.managers.find(m=>m.id===w.managerId).workerIds.includes(w.id));
+ assert.equal(p.discovery.intervalHours,72);
+ assert.equal(p.discovery.status,'not_scheduled');
+ assert.equal(p.publishingEnabled,false);
+ assert.ok(p.platforms.every(x=>x.status==='not_connected'));
+ assert.match(MediaHome.render({mediaPlan:p}),/Not active/);
+ const category=MediaWorkforce.render({mediaPlan:p},'gaming');
+ assert.match(category,/Gaming/);
+ assert.doesNotMatch(category,/>Sports</);
+ assert.match(category,/Unknown eligibility blocks production/);
+ p.managers[0].workerIds.pop();
+ assert.equal(buildMediaPlan().managers[0].workerIds.length,7);
+});
