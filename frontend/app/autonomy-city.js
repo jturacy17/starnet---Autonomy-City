@@ -61,7 +61,20 @@ const AutonomyCity = (() => {
     root.querySelector('#ac-close').onclick=close;
     root.querySelector('#ac-panel-close').onclick=()=>{panel.classList.remove('open');if(typeof AutonomyRenderer!=='undefined'&&AutonomyRenderer.clearFocus)AutonomyRenderer.clearFocus();};
     layer.addEventListener('click',e=>{const btn=e.target.closest('[data-campus]');if(btn)openCampus(btn.dataset.campus);});
-    panel.addEventListener('click',e=>{const nav=e.target.closest('[data-ac-nav]');if(nav){openCampus(nav.dataset.acNav);return;}const media=e.target.closest('[data-media-nav]');if(media)openMedia(media.dataset.mediaNav);});
+    panel.addEventListener('click',async e=>{
+      const create=e.target.closest('[data-media-create]');
+      if(create){
+        const feedback=panel.querySelector('#ac-media-create-status');create.disabled=true;
+        try{if(typeof MediaAgents==='undefined'||typeof App==='undefined')throw new Error('Reload StarNet to load agent recruitment.');
+          feedback.textContent='Creating agents and syncing the roster…';
+          const result=await MediaAgents.create(lastCommand&&lastCommand.mediaPlan,create.dataset.mediaCreate==='all'?null:create.dataset.mediaCreate,App);
+          const category=create.dataset.mediaCreate==='all'?'workforce':create.dataset.mediaCreate;
+          openMedia(category);panel.querySelector('#ac-media-create-status').textContent=result.created+' new agents created; '+result.total+' positions synced. Open an agent to assign work.';
+        }catch(error){if(feedback)feedback.textContent=error.message;}finally{create.disabled=false;}return;
+      }
+      const agentButton=e.target.closest('[data-media-agent]');
+      if(agentButton){if(typeof App!=='undefined'&&App.selectAgent){App.selectAgent(agentButton.dataset.mediaAgent);close();}return;}
+      const nav=e.target.closest('[data-ac-nav]');if(nav){openCampus(nav.dataset.acNav);return;}const media=e.target.closest('[data-media-nav]');if(media)openMedia(media.dataset.mediaNav);});
   }
   function renderUnavailable(){
     panel.querySelector('#ac-panel-body').innerHTML=
